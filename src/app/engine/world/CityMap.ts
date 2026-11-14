@@ -176,6 +176,47 @@ export class CityMap {
     );
   }
 
+  isFireStationBlock(blockC: number, blockR: number): boolean {
+    return (
+      (blockC === 6 && blockR === 2) ||
+      (blockC === 9 && blockR === 11) ||
+      (blockC === 2 && blockR === 6)
+    );
+  }
+
+  isSchoolBlock(blockC: number, blockR: number): boolean {
+    return (
+      (blockC === 3 && blockR === 5) ||
+      (blockC === 11 && blockR === 8) ||
+      (blockC === 8 && blockR === 2)
+    );
+  }
+
+  isGasStationBlock(blockC: number, blockR: number): boolean {
+    return (
+      (blockC === 7 && blockR === 5) ||
+      (blockC === 1 && blockR === 9) ||
+      (blockC === 12 && blockR === 6) ||
+      (blockC === 5 && blockR === 12)
+    );
+  }
+
+  isNightclubBlock(blockC: number, blockR: number): boolean {
+    return (
+      (blockC === 5 && blockR === 9) ||
+      (blockC === 13 && blockR === 8) ||
+      (blockC === 9 && blockR === 4)
+    );
+  }
+
+  isBarBlock(blockC: number, blockR: number): boolean {
+    return (
+      (blockC === 2 && blockR === 8) ||
+      (blockC === 8 && blockR === 12) ||
+      (blockC === 12 && blockR === 10)
+    );
+  }
+
   isParkingBlock(blockC: number, blockR: number): boolean {
     const designated = [
       '2,1', '5,2', '1,4', '6,3', '10,3', '12,3',
@@ -282,11 +323,16 @@ export class CityMap {
           continue;
         }
 
-        // Keep select blocks as parks / plazas (unless they are a Hospital or Police precinct)
+        // Keep select blocks as parks / plazas (unless they are designated special amenities)
         if (
           (blockR + blockC) % 5 === 0 &&
           !this.isHospitalBlock(blockC, blockR) &&
-          !this.isPoliceBlock(blockC, blockR)
+          !this.isPoliceBlock(blockC, blockR) &&
+          !this.isFireStationBlock(blockC, blockR) &&
+          !this.isSchoolBlock(blockC, blockR) &&
+          !this.isGasStationBlock(blockC, blockR) &&
+          !this.isNightclubBlock(blockC, blockR) &&
+          !this.isBarBlock(blockC, blockR)
         ) {
           continue; // Keep as grass park
         }
@@ -1210,10 +1256,23 @@ export class CityMap {
     const polUV = atlas.getUVs('roof_police');
     const antennaUV = atlas.getUVs('roof_antenna');
     const acUnitUV = atlas.getUVs('roof_ac_unit');
+    const firestationUV = atlas.getUVs('roof_firestation');
+    const schoolUV = atlas.getUVs('roof_school');
+    const gasCanopyUV = atlas.getUVs('roof_gas_canopy');
+    const gasPumpsUV = atlas.getUVs('gas_pumps');
+    const nightclubUV = atlas.getUVs('roof_nightclub');
+    const barUV = atlas.getUVs('roof_bar');
+    const sportsCourtUV = atlas.getUVs('sports_court');
+    const convenienceMartUV = atlas.getUVs('convenience_mart');
 
     // Helper: calculate deterministic building height level (1 to 4 floors)
     const getBuildingHeight = (blockC: number, blockR: number): number => {
       if (this.isHospitalBlock(blockC, blockR) || this.isPoliceBlock(blockC, blockR)) return 3;
+      if (this.isFireStationBlock(blockC, blockR)) return 2;
+      if (this.isSchoolBlock(blockC, blockR)) return 2;
+      if (this.isGasStationBlock(blockC, blockR)) return 1;
+      if (this.isNightclubBlock(blockC, blockR)) return 2;
+      if (this.isBarBlock(blockC, blockR)) return 2;
       return 1 + Math.abs((blockC * 11 + blockR * 17) % 4);
     };
 
@@ -1269,6 +1328,16 @@ export class CityMap {
           let deckUV = bldUV;
           if (this.isHospitalBlock(blockC, blockR) || this.isPoliceBlock(blockC, blockR)) {
             deckUV = bldUV;
+          } else if (this.isFireStationBlock(blockC, blockR)) {
+            deckUV = metalUV;
+          } else if (this.isSchoolBlock(blockC, blockR)) {
+            deckUV = coolWhiteUV;
+          } else if (this.isGasStationBlock(blockC, blockR)) {
+            deckUV = coolWhiteUV;
+          } else if (this.isNightclubBlock(blockC, blockR)) {
+            deckUV = gravelUV;
+          } else if (this.isBarBlock(blockC, blockR)) {
+            deckUV = terracottaUV;
           } else if (style === 0) {
             deckUV = coolWhiteUV; // Modern Commercial White Membrane
           } else if (style === 1) {
@@ -1363,7 +1432,15 @@ export class CityMap {
           }
 
           // 4. Rooftop Secondary Architectural Structures
-          if (!this.isHospitalBlock(blockC, blockR) && !this.isPoliceBlock(blockC, blockR)) {
+          if (
+            !this.isHospitalBlock(blockC, blockR) &&
+            !this.isPoliceBlock(blockC, blockR) &&
+            !this.isFireStationBlock(blockC, blockR) &&
+            !this.isSchoolBlock(blockC, blockR) &&
+            !this.isGasStationBlock(blockC, blockR) &&
+            !this.isNightclubBlock(blockC, blockR) &&
+            !this.isBarBlock(blockC, blockR)
+          ) {
             if (relC === 1 && relR === 1) {
               // Raised elevator penthouse bulkhead
               batch.drawRegion(elevatorPenthouseUV, x + S / 2, y + S / 2, S, S, 0, 0.5, 0.5, 1, 1, 1, 1);
@@ -1388,7 +1465,29 @@ export class CityMap {
             }
           }
 
-          // 5. Rooftop Centerpiece (Hospital, Police, Helipad, Atrium, HVAC, Solar)
+          // 4B. POI Campus Grounds & Forecourt Structures
+          if (this.isSchoolBlock(blockC, blockR)) {
+            if (relC === 1 && relR === 2) {
+              // Athletic / basketball court
+              batch.drawRegion(sportsCourtUV, x + S / 2, y + S / 2, S, S, 0, 0.5, 0.5, 1, 1, 1, 1);
+            }
+          } else if (this.isGasStationBlock(blockC, blockR)) {
+            if (relC === 1 && relR === 2) {
+              // Gas pump dispensing island
+              batch.drawRegion(gasPumpsUV, x + S / 2, y + S / 2, S, S, 0, 0.5, 0.5, 1, 1, 1, 1);
+              if (isNight) {
+                batch.drawRegion(lightHaloUV, x + S / 2, y + S / 2, 45, 45, 0, 0.5, 0.5, 0.9, 0.9, 1.0, 0.4);
+              }
+            } else if (relC === 3 && relR === 2) {
+              // 24/7 Convenience Mart
+              batch.drawRegion(convenienceMartUV, x + S / 2, y + S / 2, S, S, 0, 0.5, 0.5, 1, 1, 1, 1);
+              if (isNight) {
+                batch.drawRegion(lightHaloUV, x + S / 2, y + S / 2, 50, 50, 0, 0.5, 0.5, 0.4, 0.8, 1.0, 0.5);
+              }
+            }
+          }
+
+          // 5. Rooftop Centerpiece (Hospital, Police, Fire, School, Gas, Club, Bar, Atrium, Helipad)
           if (relC === 2 && relR === 2) {
             if (this.isHospitalBlock(blockC, blockR)) {
               batch.drawRegion(hospUV, x + S / 2, y + S / 2, S, S, 0, 0.5, 0.5, 1, 1, 1, 1);
@@ -1405,6 +1504,40 @@ export class CityMap {
               if (isNight) {
                 const beaconColor = copFlash ? [0.1, 0.5, 1.0] : [1.0, 0.15, 0.15];
                 batch.drawRegion(lightHaloUV, x + S / 2, y + S / 2, 40, 40, 0, 0.5, 0.5, beaconColor[0], beaconColor[1], beaconColor[2], 0.7);
+              }
+            } else if (this.isFireStationBlock(blockC, blockR)) {
+              batch.drawRegion(firestationUV, x + S / 2, y + S / 2, S, S, 0, 0.5, 0.5, 1, 1, 1, 1);
+              // Dual flashing emergency red strobe lights
+              const fireFlash = Math.sin(time * 6.0) > 0 ? 1.0 : 0.0;
+              if (isNight && fireFlash > 0) {
+                batch.drawRegion(lightHaloUV, x + 12, y + 12, 28, 28, 0, 0.5, 0.5, 1.0, 0.1, 0.1, 0.85);
+                batch.drawRegion(lightHaloUV, x + S - 12, y + S - 12, 28, 28, 0, 0.5, 0.5, 1.0, 0.1, 0.1, 0.85);
+              }
+            } else if (this.isSchoolBlock(blockC, blockR)) {
+              batch.drawRegion(schoolUV, x + S / 2, y + S / 2, S, S, 0, 0.5, 0.5, 1, 1, 1, 1);
+              if (isNight) {
+                batch.drawRegion(lightHaloUV, x + S / 2, y + S / 2, 42, 42, 0, 0.5, 0.5, 1.0, 0.9, 0.5, 0.35);
+              }
+            } else if (this.isGasStationBlock(blockC, blockR)) {
+              batch.drawRegion(gasCanopyUV, x + S / 2, y + S / 2, S, S, 0, 0.5, 0.5, 1, 1, 1, 1);
+              if (isNight) {
+                batch.drawRegion(lightHaloUV, x + S / 2, y + S / 2, 68, 68, 0, 0.5, 0.5, 0.95, 0.95, 1.0, 0.65);
+              }
+            } else if (this.isNightclubBlock(blockC, blockR)) {
+              batch.drawRegion(nightclubUV, x + S / 2, y + S / 2, S, S, 0, 0.5, 0.5, 1, 1, 1, 1);
+              if (isNight) {
+                const laserAngle1 = time * 2.2;
+                const laserAngle2 = -time * 1.8 + Math.PI;
+                const pulse = 0.5 + 0.5 * Math.sin(time * 4.0);
+                batch.drawRegion(lightHaloUV, x + S / 2, y + S / 2, 60, 60, 0, 0.5, 0.5, 0.9, 0.1, 0.8, 0.5 + 0.3 * pulse);
+                batch.drawRegion(lightHaloUV, x + S / 2 + Math.cos(laserAngle1) * 36, y + S / 2 + Math.sin(laserAngle1) * 36, 32, 12, laserAngle1, 0.5, 0.5, 0.2, 0.8, 1.0, 0.8);
+                batch.drawRegion(lightHaloUV, x + S / 2 + Math.cos(laserAngle2) * 36, y + S / 2 + Math.sin(laserAngle2) * 36, 32, 12, laserAngle2, 0.5, 0.5, 1.0, 0.2, 0.6, 0.8);
+              }
+            } else if (this.isBarBlock(blockC, blockR)) {
+              batch.drawRegion(barUV, x + S / 2, y + S / 2, S, S, 0, 0.5, 0.5, 1, 1, 1, 1);
+              if (isNight) {
+                const neonFlicker = Math.sin(time * 12.0) > -0.7 ? 0.6 : 0.2;
+                batch.drawRegion(lightHaloUV, x + S / 2, y + S / 2, 48, 48, 0, 0.5, 0.5, 1.0, 0.5, 0.1, neonFlicker);
               }
             } else {
               if (style === 0) {

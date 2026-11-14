@@ -14,7 +14,10 @@ export type ShopType =
   | 'gas_station'
   | 'car_dealer'
   | 'donut_shop'
-  | 'nightclub';
+  | 'nightclub'
+  | 'fire_station'
+  | 'school'
+  | 'bar';
 
 export interface Shop {
   id: number;
@@ -90,7 +93,128 @@ export class ShopSystem {
       });
     }
 
-    // 3. Diverse Commercial Retail Stores & Services
+    // 3. Explicit Fire Stations (3 City Districts)
+    const fireStations = [
+      { blockC: 6, blockR: 2, name: 'METRO FIRE DEPT - STATION 6', tagline: 'Hazard Gear, Fire Trucks & Extinguishers' },
+      { blockC: 9, blockR: 11, name: 'INDUSTRIAL HARBOR FIRE HQ', tagline: 'Heavy Rescue & High-Pressure Foam' },
+      { blockC: 2, blockR: 6, name: 'WESTSIDE FIRE BRIGADE 2', tagline: 'Firefighting Equipment & Thermal Suits' }
+    ];
+
+    for (const fire of fireStations) {
+      const c = fire.blockC * 8 + 4;
+      const r = fire.blockR * 8 + 6;
+      this.shops.push({
+        id: shopId++,
+        type: 'fire_station',
+        name: fire.name,
+        tagline: fire.tagline,
+        tileC: c,
+        tileR: r,
+        doorX: c * S + S / 2,
+        doorY: (r + 1) * S + S / 2,
+        color: [1.0, 0.28, 0.1],
+        doorSide: 'south'
+      });
+    }
+
+    // 4. Explicit Schools & Academies (3 City Districts)
+    const schools = [
+      { blockC: 3, blockR: 5, name: 'SAINT MARK PREPARATORY ACADEMY', tagline: 'Athletics, Sprint Coaching & Academic Grants' },
+      { blockC: 11, blockR: 8, name: 'METRO CENTRAL HIGH SCHOOL', tagline: 'Gym Training, First Aid & Student Funds' },
+      { blockC: 8, blockR: 2, name: 'EASTSIDE POLYTECHNIC INSTITUTE', tagline: 'Engineering Courses & Stamina Boosts' }
+    ];
+
+    for (const school of schools) {
+      const c = school.blockC * 8 + 4;
+      const r = school.blockR * 8 + 6;
+      this.shops.push({
+        id: shopId++,
+        type: 'school',
+        name: school.name,
+        tagline: school.tagline,
+        tileC: c,
+        tileR: r,
+        doorX: c * S + S / 2,
+        doorY: (r + 1) * S + S / 2,
+        color: [0.2, 0.8, 0.45],
+        doorSide: 'south'
+      });
+    }
+
+    // 5. Explicit Gas Stations (4 City Districts)
+    const gasStations = [
+      { blockC: 7, blockR: 5, name: 'OCTANE 99 HIGHWAY TRUCK STOP', tagline: 'Nitro Boost Injection & Fuel Tankers' },
+      { blockC: 1, blockR: 9, name: 'RED STAR DIESEL & TANKERS', tagline: 'Commercial Heavy Fuel & Service Bay' },
+      { blockC: 12, blockR: 6, name: 'TURBO CHARGE REPAIR & NOS DEPOT', tagline: 'Performance Tuning & Overhaul' },
+      { blockC: 5, blockR: 12, name: 'SUNOCO EXPRESS GAS & MINI-MART', tagline: '24/7 Snacks, Repair & Refuel' }
+    ];
+
+    for (const gas of gasStations) {
+      const c = gas.blockC * 8 + 4;
+      const r = gas.blockR * 8 + 6;
+      this.shops.push({
+        id: shopId++,
+        type: 'gas_station',
+        name: gas.name,
+        tagline: gas.tagline,
+        tileC: c,
+        tileR: r,
+        doorX: c * S + S / 2,
+        doorY: (r + 1) * S + S / 2,
+        color: [1.0, 0.65, 0.0],
+        doorSide: 'south'
+      });
+    }
+
+    // 6. Explicit Nightclubs (3 City Districts)
+    const nightclubs = [
+      { blockC: 5, blockR: 9, name: 'NEON PARADISE ULTRA-CLUB', tagline: 'VIP Lounge, Syndicate Cash & Limos' },
+      { blockC: 13, blockR: 8, name: 'CLUB ELYSIUM VIP LOUNGE', tagline: 'Exclusive Penthouse & Inferno Hotrods' },
+      { blockC: 9, blockR: 4, name: 'THE VELVET ROPE LOUNGE', tagline: 'Underground Syndicate Deals & Luxury Cars' }
+    ];
+
+    for (const club of nightclubs) {
+      const c = club.blockC * 8 + 4;
+      const r = club.blockR * 8 + 6;
+      this.shops.push({
+        id: shopId++,
+        type: 'nightclub',
+        name: club.name,
+        tagline: club.tagline,
+        tileC: c,
+        tileR: r,
+        doorX: c * S + S / 2,
+        doorY: (r + 1) * S + S / 2,
+        color: [0.95, 0.1, 0.85],
+        doorSide: 'south'
+      });
+    }
+
+    // 7. Explicit Bars & Pubs (3 City Districts)
+    const bars = [
+      { blockC: 2, blockR: 8, name: 'THE RUSTY ANCHOR PUB', tagline: 'Cold Draught Beer, Whiskey & Street Rumors' },
+      { blockC: 8, blockR: 12, name: 'SHAMROCK IRISH TAVERN', tagline: 'Irish Stout, Bourbon & Brawlers Pit' },
+      { blockC: 12, blockR: 10, name: 'OUTLAW BIKER SALOON', tagline: 'Tough Drinks, Brass Knuckles & Jukebox' }
+    ];
+
+    for (const bar of bars) {
+      const c = bar.blockC * 8 + 4;
+      const r = bar.blockR * 8 + 6;
+      this.shops.push({
+        id: shopId++,
+        type: 'bar',
+        name: bar.name,
+        tagline: bar.tagline,
+        tileC: c,
+        tileR: r,
+        doorX: c * S + S / 2,
+        doorY: (r + 1) * S + S / 2,
+        color: [0.9, 0.5, 0.1],
+        doorSide: 'south'
+      });
+    }
+
+    // 8. Diverse Commercial Retail Stores & Services
     const retailDefinitions: Array<{ type: ShopType; name: string; tagline: string; color: [number, number, number] }> = [
       { type: 'ammu_nation', name: 'AMMU-NATION', tagline: 'Guns & Ammo Supply', color: [1.0, 0.25, 0.25] },
       { type: 'burger_shot', name: 'BURGER SHOT', tagline: 'Fast Food +100 HP', color: [1.0, 0.7, 0.15] },
@@ -100,17 +224,25 @@ export class ShopSystem {
       { type: 'pharmacy', name: 'CITY PHARMACY', tagline: 'Medical Clinic +100 HP', color: [0.2, 0.95, 0.8] },
       { type: 'car_dealer', name: 'LUXURY MOTOR IMPORTS', tagline: 'Exotic Supercars Showroom', color: [0.65, 0.2, 0.95] },
       { type: 'donut_shop', name: "RUSTY'S DONUTS & COFFEE", tagline: 'Fresh Glazed Donuts & Cop Pacifier', color: [0.95, 0.4, 0.7] },
-      { type: 'nightclub', name: 'NEON PARADISE CLUB', tagline: 'VIP Lounge & Syndicate Stash', color: [0.9, 0.15, 0.85] }
+      { type: 'bar', name: 'LOCAL WATERHOLE TAVERN', tagline: 'Draught Beer & Whiskey', color: [0.9, 0.5, 0.1] }
     ];
 
     // Scan for solid buildings that border a sidewalk to distribute retail shops across the city
     for (let r = 3; r < map.rows - 3; r += 3) {
       for (let c = 3; c < map.cols - 3; c += 3) {
         if (map.getTile(c, r) === TileType.BUILDING) {
-          // Avoid placing retail on hospital or police blocks
+          // Avoid placing retail on designated POI blocks
           const blockC = Math.floor((c - 2) / 8);
           const blockR = Math.floor((r - 2) / 8);
-          if (map.isHospitalBlock(blockC, blockR) || map.isPoliceBlock(blockC, blockR)) continue;
+          if (
+            map.isHospitalBlock(blockC, blockR) ||
+            map.isPoliceBlock(blockC, blockR) ||
+            map.isFireStationBlock(blockC, blockR) ||
+            map.isSchoolBlock(blockC, blockR) ||
+            map.isGasStationBlock(blockC, blockR) ||
+            map.isNightclubBlock(blockC, blockR) ||
+            map.isBarBlock(blockC, blockR)
+          ) continue;
 
           // Check if spot already occupied
           const alreadyOccupied = this.shops.some(s => Math.hypot(s.doorX - (c * S + S / 2), s.doorY - (r * S + S / 2)) < S * 2);

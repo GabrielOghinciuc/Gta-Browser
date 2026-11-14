@@ -44,6 +44,7 @@ export class ShopDialogComponent {
     switch (shopType) {
       case 'hospital':
       case 'ammu_nation':
+      case 'fire_station':
         return 'crimson';
       case 'police_station':
       case 'pay_n_spray':
@@ -51,8 +52,10 @@ export class ShopDialogComponent {
       case 'burger_shot':
       case 'gas_station':
       case 'bank':
+      case 'bar':
         return 'amber';
       case 'pharmacy':
+      case 'school':
         return 'cyan';
       case 'car_dealer':
       case 'donut_shop':
@@ -100,17 +103,34 @@ export class ShopDialogComponent {
         return [
           { type: 'police_bribe', cost: 300, name: 'BRIBE PRECINCT CAPTAIN', desc: 'Dismiss all charges and instantly clear all Wanted stars', badge: 'BRIBE' },
           { type: 'police_kevlar', cost: 200, name: 'SWAT TACTICAL KEVLAR', desc: 'Heavy police assault body armor (100% armor)', badge: 'ARMOR' },
-          { type: 'police_impound', cost: 450, name: 'RELEASE POLICE CRUISER', desc: 'Requisition an official police pursuit cruiser parked outside', badge: 'VEHICLE' }
+          { type: 'police_impound', cost: 450, name: 'RELEASE POLICE CRUISER', desc: 'Requisition an official police pursuit cruiser parked outside', badge: 'VEHICLE' },
+          { type: 'police_swat_truck', cost: 1400, name: 'REQUISITION SWAT ENFORCER', desc: 'Tactical armored SWAT ram truck delivered outside', badge: 'SWAT' }
+        ];
+      case 'fire_station':
+        return [
+          { type: 'fire_suit', cost: 250, name: 'FIREFIGHTER HAZMAT GEAR', desc: 'Heavy flame-retardant turnout suit: 100% Health & 100% Armor', badge: 'HAZMAT' },
+          { type: 'fire_extinguisher', cost: 60, name: 'PRESSURIZED CO2 EXTINGUISHER', desc: 'Emergency triage foam kit restoring +50 Health', badge: 'SAFETY' },
+          { type: 'fire_truck', cost: 1200, name: 'REQUISITION HEAVY FIRE ENGINE', desc: 'Call in an authentic siren-blazing Engine 01 Fire Truck parked outside', badge: 'VEHICLE' }
+        ];
+      case 'school':
+        return [
+          { type: 'school_sprint', cost: 350, name: 'TRACK & FIELD ATHLETIC COACHING', desc: 'Intensive stamina drills: +25% on-foot running and sprint speed', badge: 'STAMINA' },
+          { type: 'school_scholarship', cost: 0, name: 'CLAIM ACADEMIC MERIT GRANT', desc: 'Collect +$1,200 education grant endowment funds', badge: 'GRANT' },
+          { type: 'school_nurse', cost: 30, name: 'CAMPUS NURSE FIRST-AID CLINIC', desc: 'Campus clinic checkup restoring full 100% Health', badge: 'HEALTH' }
         ];
       case 'gas_station':
         return [
           { type: 'gas_nitro', cost: 120, name: 'OCTANE-99 NITRO BOOST TUNE', desc: 'Repairs current vehicle to 100% and injects nitro propulsion', badge: 'NITRO' },
-          { type: 'respray', cost: 70, name: 'SERVICE BAY REPAIR & WASH', desc: 'Complete engine overhaul and exterior restoration', badge: 'REPAIR' }
+          { type: 'respray', cost: 70, name: 'SERVICE BAY REPAIR & WASH', desc: 'Complete engine overhaul and exterior restoration', badge: 'REPAIR' },
+          { type: 'gas_tanker', cost: 1800, name: 'REQUISITION OCTANE FUEL TANKER', desc: 'Order an industrial 22-ton high-capacity fuel tanker delivered outside', badge: 'TANKER' },
+          { type: 'gas_pickup', cost: 950, name: 'BUY BISON 4x4 PICKUP TRUCK', desc: 'All-terrain 4x4 rugged utility pickup truck parked outside', badge: 'PICKUP' }
         ];
       case 'car_dealer':
         return [
           { type: 'car_viper', cost: 2000, name: 'VIPER GT TWIN-TURBO', desc: '550 KM/H yellow supercar delivered parked outside showroom', badge: 'SUPERCAR' },
-          { type: 'car_stallion', cost: 1500, name: 'STALLION V8 MUSCLE', desc: 'High-torque supercharged muscle car delivered outside', badge: 'MUSCLE' }
+          { type: 'car_stallion', cost: 1500, name: 'STALLION V8 MUSCLE', desc: 'High-torque supercharged muscle car delivered outside', badge: 'MUSCLE' },
+          { type: 'car_hotrod', cost: 2600, name: 'INFERNO V8 BLOWER HOTROD', desc: 'Roaring custom drag hotrod with flame decals delivered outside', badge: 'HOTROD' },
+          { type: 'car_box_truck', cost: 1100, name: 'ZAIBATSU HEAVY BOX TRUCK', desc: 'Commercial cargo logistics transport truck delivered outside', badge: 'CARGO' }
         ];
       case 'donut_shop':
         return [
@@ -119,7 +139,15 @@ export class ShopDialogComponent {
         ];
       case 'nightclub':
         return [
-          { type: 'club_drinks', cost: 500, name: 'VIP SYNDICATE LOUNGE ENTRY', desc: 'Underworld connection payout: collect +$2,500 syndicate cash', badge: 'PAYOUT' }
+          { type: 'club_drinks', cost: 500, name: 'VIP SYNDICATE LOUNGE ENTRY', desc: 'Underworld connection payout: collect +$2,500 syndicate cash', badge: 'PAYOUT' },
+          { type: 'club_limo', cost: 2200, name: 'HIRE VIP STRETCH LIMOUSINE', desc: 'Executive luxury tinted stretch limousine delivered outside club', badge: 'VIP CAR' },
+          { type: 'club_hotrod', cost: 2600, name: 'INFERNO V8 BLOWER HOTROD', desc: 'Underground street racer hotrod delivered outside', badge: 'STREET' }
+        ];
+      case 'bar':
+        return [
+          { type: 'bar_beer', cost: 15, name: 'COLD DRAUGHT BEER', desc: 'Ice-cold pint refreshing health (+40 HP)', badge: 'BEER' },
+          { type: 'bar_whiskey', cost: 45, name: 'TOP-SHELF KENTUCKY BOURBON', desc: 'High-proof whiskey: restores 100% Health with an adrenaline kick', badge: 'BOURBON' },
+          { type: 'bar_brawl', cost: 110, name: 'HEAVY BRASS KNUCKLES & BRAWL GEAR', desc: 'Street fighter brass knuckles with full 100% Body Armor', badge: 'BRAWLER' }
         ];
       default:
         return [];

@@ -172,7 +172,10 @@ export class GameEngine implements IGameEngineConsoleBridge {
       'muscle_green',
       'van_white',
       'sports_red',
-      'ambulance'
+      'ambulance',
+      'pickup',
+      'truck_box',
+      'hotrod'
     ];
 
     const roadAvenues = [8, 16, 24, 32, 40, 48, 56];
@@ -246,6 +249,29 @@ export class GameEngine implements IGameEngineConsoleBridge {
         parkedCar.hasDriver = false;
         this.cars.push(parkedCar);
       }
+    }
+
+    // 3. Signature Parked Vehicles Outside POI Facilities
+    const fireStations = [{ blockC: 6, blockR: 2 }, { blockC: 9, blockR: 11 }, { blockC: 2, blockR: 6 }];
+    for (const fs of fireStations) {
+      const ft = new Car((fs.blockC * 8 + 4) * S + S / 2, (fs.blockR * 8 + 7) * S + S / 2, 0, 'firetruck');
+      ft.hasDriver = false;
+      this.cars.push(ft);
+    }
+
+    const nightclubs = [{ blockC: 5, blockR: 9 }, { blockC: 13, blockR: 8 }, { blockC: 9, blockR: 4 }];
+    for (const nc of nightclubs) {
+      const limo = new Car((nc.blockC * 8 + 4) * S + S / 2, (nc.blockR * 8 + 7) * S + S / 2, 0, 'limo');
+      limo.hasDriver = false;
+      this.cars.push(limo);
+    }
+
+    const gasStations = [{ blockC: 7, blockR: 5 }, { blockC: 1, blockR: 9 }, { blockC: 12, blockR: 6 }, { blockC: 5, blockR: 12 }];
+    for (const [idx, gs] of gasStations.entries()) {
+      const gType: CarType = idx % 2 === 0 ? 'gas_tanker' : 'pickup';
+      const tanker = new Car((gs.blockC * 8 + 4) * S + S / 2, (gs.blockR * 8 + 7) * S + S / 2, 0, gType);
+      tanker.hasDriver = false;
+      this.cars.push(tanker);
     }
   }
 
@@ -616,6 +642,107 @@ export class GameEngine implements IGameEngineConsoleBridge {
         this.showToast(`IMPOUND RELEASED: POLICE CRUISER DELIVERED (-$${item.cost})`, 3.5);
         break;
       }
+      case 'police_swat_truck': {
+        const px = this.playerOnFoot.x;
+        const py = this.playerOnFoot.y;
+        const swat = new Car(px + 45, py, 0, 'swat_enforcer');
+        swat.hasDriver = false;
+        this.cars.push(swat);
+        this.showToast(`SWAT ENFORCER TACTICAL TRUCK DELIVERED (-$${item.cost})`, 3.5);
+        break;
+      }
+      case 'fire_suit':
+        this.health = 100;
+        this.armor = 100;
+        this.playerOnFoot.health = 100;
+        this.showToast(`FIREFIGHTER HAZMAT GEAR: 100% HP & 100% ARMOR (-$${item.cost})`, 3.0);
+        break;
+      case 'fire_extinguisher':
+        this.health = Math.min(100, this.health + 50);
+        this.playerOnFoot.health = this.health;
+        this.showToast(`CO2 FOAM KIT USED: +50 HP (-$${item.cost})`, 2.5);
+        break;
+      case 'fire_truck': {
+        const px = this.playerOnFoot.x;
+        const py = this.playerOnFoot.y;
+        const ft = new Car(px + 50, py, 0, 'firetruck');
+        ft.hasDriver = false;
+        this.cars.push(ft);
+        this.showToast(`ENGINE 01 FIRE TRUCK DELIVERED (-$${item.cost})`, 3.5);
+        break;
+      }
+      case 'school_sprint':
+        this.playerOnFoot.speedMultiplier = Math.min(1.5, this.playerOnFoot.speedMultiplier + 0.25);
+        this.showToast(`ATHLETIC DRILLS COMPLETE: SPRINT SPEED +25% (-$${item.cost})`, 3.5);
+        break;
+      case 'school_scholarship':
+        this.score += 1200;
+        this.showToast(`ACADEMIC GRANT COLLECTED: +$1,200 ENDOWMENT FUNDS!`, 3.5);
+        break;
+      case 'school_nurse':
+        this.health = 100;
+        this.playerOnFoot.health = 100;
+        this.showToast(`CAMPUS CLINIC: HEALTH RESTORED 100% (-$${item.cost})`, 2.5);
+        break;
+      case 'gas_tanker': {
+        const px = this.playerOnFoot.x;
+        const py = this.playerOnFoot.y;
+        const tanker = new Car(px + 50, py, 0, 'gas_tanker');
+        tanker.hasDriver = false;
+        this.cars.push(tanker);
+        this.showToast(`OCTANE-99 FUEL TANKER DELIVERED (-$${item.cost})`, 3.5);
+        break;
+      }
+      case 'gas_pickup': {
+        const px = this.playerOnFoot.x;
+        const py = this.playerOnFoot.y;
+        const pickup = new Car(px + 45, py, 0, 'pickup');
+        pickup.hasDriver = false;
+        this.cars.push(pickup);
+        this.showToast(`BISON 4x4 PICKUP DELIVERED (-$${item.cost})`, 3.5);
+        break;
+      }
+      case 'car_hotrod': {
+        const px = this.playerOnFoot.x;
+        const py = this.playerOnFoot.y;
+        const hotrod = new Car(px + 45, py, 0, 'hotrod');
+        hotrod.hasDriver = false;
+        this.cars.push(hotrod);
+        this.showToast(`INFERNO V8 HOTROD DELIVERED (-$${item.cost})`, 3.5);
+        break;
+      }
+      case 'car_box_truck': {
+        const px = this.playerOnFoot.x;
+        const py = this.playerOnFoot.y;
+        const boxTruck = new Car(px + 50, py, 0, 'truck_box');
+        boxTruck.hasDriver = false;
+        this.cars.push(boxTruck);
+        this.showToast(`ZAIBATSU BOX TRUCK DELIVERED (-$${item.cost})`, 3.5);
+        break;
+      }
+      case 'club_limo': {
+        const px = this.playerOnFoot.x;
+        const py = this.playerOnFoot.y;
+        const limo = new Car(px + 55, py, 0, 'limo');
+        limo.hasDriver = false;
+        this.cars.push(limo);
+        this.showToast(`VIP EXECUTIVE LIMOUSINE DELIVERED (-$${item.cost})`, 3.5);
+        break;
+      }
+      case 'bar_beer':
+        this.health = Math.min(100, this.health + 40);
+        this.playerOnFoot.health = this.health;
+        this.showToast(`ICE-COLD PINT DOWNED: +40 HP (-$${item.cost})`, 2.5);
+        break;
+      case 'bar_whiskey':
+        this.health = 100;
+        this.playerOnFoot.health = 100;
+        this.showToast(`KENTUCKY BOURBON SHOT: 100% HEALTH & ADRENALINE! (-$${item.cost})`, 3.0);
+        break;
+      case 'bar_brawl':
+        this.armor = 100;
+        this.showToast(`BRASS KNUCKLES & BRAWLER ARMOR EQUIPPED 100% (-$${item.cost})`, 3.0);
+        break;
       case 'gas_nitro':
         if (this.activeCar) {
           this.activeCar.health = 100;

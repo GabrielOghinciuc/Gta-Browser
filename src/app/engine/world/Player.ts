@@ -19,6 +19,7 @@ export class Player {
 
   isMoving = false;
   isSprinting = false;
+  speedMultiplier = 1.0;
   walkCycle = 0;
 
   constructor(x = 0, y = 0, angle = 0) {
@@ -47,7 +48,8 @@ export class Player {
     this.isMoving = Math.abs(moveX) > 0.1 || Math.abs(moveY) > 0.1;
     this.isSprinting = sprint && this.isMoving && !isShooting;
 
-    const targetSpeed = this.isMoving ? (this.isSprinting ? 220 : 125) : 0;
+    const baseSpeed = this.isSprinting ? 220 : 125;
+    const targetSpeed = this.isMoving ? baseSpeed * this.speedMultiplier : 0;
 
     // Direction facing: if shooting or aiming with mouse, turn towards mouse; otherwise turn towards movement
     if (aimWorldX !== undefined && aimWorldY !== undefined && (isShooting || Math.hypot(aimWorldX - this.x, aimWorldY - this.y) > 30)) {

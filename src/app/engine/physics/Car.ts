@@ -11,7 +11,14 @@ export type CarType =
   | 'cop'
   | 'muscle_green'
   | 'van_white'
-  | 'ambulance';
+  | 'ambulance'
+  | 'firetruck'
+  | 'pickup'
+  | 'truck_box'
+  | 'swat_enforcer'
+  | 'limo'
+  | 'gas_tanker'
+  | 'hotrod';
 
 export interface CarConfig {
   type: CarType;
@@ -151,6 +158,113 @@ export const CAR_CONFIGS: Record<CarType, CarConfig> = {
     rollResistance: 0.984,
     steerSensitivity: 2.9,
     mass: 1.4
+  },
+  firetruck: {
+    type: 'firetruck',
+    name: 'Engine 01 Fire Truck',
+    atlasKey: 'car_firetruck',
+    width: 62,
+    height: 34,
+    maxSpeed: 440,
+    maxReverseSpeed: -130,
+    acceleration: 320,
+    reverseAcceleration: 180,
+    brakingPower: 580,
+    rollResistance: 0.985,
+    steerSensitivity: 2.6,
+    mass: 2.4,
+    isCop: true
+  },
+  pickup: {
+    type: 'pickup',
+    name: 'Bison 4x4 Pickup',
+    atlasKey: 'car_pickup',
+    width: 56,
+    height: 32,
+    maxSpeed: 490,
+    maxReverseSpeed: -160,
+    acceleration: 410,
+    reverseAcceleration: 220,
+    brakingPower: 520,
+    rollResistance: 0.985,
+    steerSensitivity: 3.2,
+    mass: 1.45
+  },
+  truck_box: {
+    type: 'truck_box',
+    name: 'Zaibatsu Box Truck',
+    atlasKey: 'car_truck_box',
+    width: 60,
+    height: 34,
+    maxSpeed: 410,
+    maxReverseSpeed: -120,
+    acceleration: 270,
+    reverseAcceleration: 170,
+    brakingPower: 490,
+    rollResistance: 0.982,
+    steerSensitivity: 2.4,
+    mass: 1.85
+  },
+  swat_enforcer: {
+    type: 'swat_enforcer',
+    name: 'SWAT Tactical Enforcer',
+    atlasKey: 'car_swat_enforcer',
+    width: 58,
+    height: 34,
+    maxSpeed: 520,
+    maxReverseSpeed: -150,
+    acceleration: 440,
+    reverseAcceleration: 220,
+    brakingPower: 620,
+    rollResistance: 0.986,
+    steerSensitivity: 3.0,
+    mass: 2.2,
+    isCop: true
+  },
+  limo: {
+    type: 'limo',
+    name: 'VIP Stretch Limousine',
+    atlasKey: 'car_limo',
+    width: 68,
+    height: 30,
+    maxSpeed: 490,
+    maxReverseSpeed: -140,
+    acceleration: 350,
+    reverseAcceleration: 190,
+    brakingPower: 510,
+    rollResistance: 0.985,
+    steerSensitivity: 2.5,
+    mass: 1.65
+  },
+  gas_tanker: {
+    type: 'gas_tanker',
+    name: 'Octane-99 Fuel Tanker',
+    atlasKey: 'car_gas_tanker',
+    width: 64,
+    height: 34,
+    maxSpeed: 390,
+    maxReverseSpeed: -110,
+    acceleration: 240,
+    reverseAcceleration: 160,
+    brakingPower: 480,
+    rollResistance: 0.981,
+    steerSensitivity: 2.2,
+    mass: 2.5
+  },
+  hotrod: {
+    type: 'hotrod',
+    name: 'Inferno V8 Hotrod',
+    atlasKey: 'car_hotrod',
+    width: 54,
+    height: 30,
+    maxSpeed: 590,
+    maxReverseSpeed: -180,
+    acceleration: 720,
+    reverseAcceleration: 250,
+    brakingPower: 600,
+    rollResistance: 0.986,
+    steerSensitivity: 3.7,
+    mass: 1.05
   }
 };
 
@@ -1027,7 +1141,7 @@ export class Car {
       );
     }
 
-    // 6. Police Cruiser Flashing Sirens
+    // 6. Emergency Flashing Sirens (Police Cruiser, Fire Truck, SWAT Enforcer)
     if (this.config.isCop && (this.sirenActive || this.isPlayerControlled)) {
       this.sirenTimer += 0.016;
       const flash = Math.sin(this.sirenTimer * 14) > 0;
@@ -1039,10 +1153,11 @@ export class Car {
       const bSirenY = roofY + rightY * 5;
 
       const haloUV = atlas.getUVs('light_halo');
+      const isFireTruck = this.config.type === 'firetruck';
 
       if (flash) {
         if (haloUV) {
-          batch.drawRegion(haloUV, rSirenX, rSirenY, 74, 74, 0, 0.5, 0.5, 1.0, 0.1, 0.1, 0.38);
+          batch.drawRegion(haloUV, rSirenX, rSirenY, 74, 74, 0, 0.5, 0.5, 1.0, 0.1, 0.1, 0.45);
         }
         batch.drawRegion(
           whiteUV,
@@ -1056,11 +1171,12 @@ export class Car {
           1.0,
           0.1,
           0.1,
-          0.9
+          0.95
         );
       } else {
+        const sirenColor: [number, number, number] = isFireTruck ? [1.0, 0.65, 0.05] : [0.1, 0.4, 1.0];
         if (haloUV) {
-          batch.drawRegion(haloUV, bSirenX, bSirenY, 74, 74, 0, 0.5, 0.5, 0.1, 0.4, 1.0, 0.38);
+          batch.drawRegion(haloUV, bSirenX, bSirenY, 74, 74, 0, 0.5, 0.5, sirenColor[0], sirenColor[1], sirenColor[2], 0.45);
         }
         batch.drawRegion(
           whiteUV,
@@ -1071,10 +1187,10 @@ export class Car {
           0,
           0.5,
           0.5,
-          0.1,
-          0.4,
-          1.0,
-          0.9
+          sirenColor[0],
+          sirenColor[1],
+          sirenColor[2],
+          0.95
         );
       }
     }

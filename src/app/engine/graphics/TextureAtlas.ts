@@ -2335,6 +2335,454 @@ export class TextureAtlas {
     ctx.textBaseline = 'middle';
     ctx.fillText('P', psn_x + 32, psn_y + 32);
     this.registerTile('parking_sign', 5, R11);
+
+    // =============================================================
+    // EXPANDED VEHICLES & TRUCKS (Row 12)
+    // =============================================================
+    const R12 = 12;
+
+    // 0, 12: Fire Engine (Camion de Pompieri)
+    const ft_x = 0 * S, ft_y = R12 * S;
+    // Wheels (6 heavy truck tires)
+    ctx.fillStyle = '#111111';
+    ctx.fillRect(ft_x + 8, ft_y + 6, 12, 6);
+    ctx.fillRect(ft_x + 32, ft_y + 6, 11, 6);
+    ctx.fillRect(ft_x + 44, ft_y + 6, 11, 6);
+    ctx.fillRect(ft_x + 8, ft_y + 52, 12, 6);
+    ctx.fillRect(ft_x + 32, ft_y + 52, 11, 6);
+    ctx.fillRect(ft_x + 44, ft_y + 52, 11, 6);
+    // Red chassis body
+    ctx.fillStyle = '#b71540';
+    ctx.beginPath();
+    ctx.roundRect(ft_x + 4, ft_y + 10, 56, 44, 4);
+    ctx.fill();
+    // Front cab white roof & chrome bumper
+    ctx.fillStyle = '#f5f6fa';
+    ctx.fillRect(ft_x + 40, ft_y + 12, 18, 40);
+    ctx.fillStyle = '#718093';
+    ctx.fillRect(ft_x + 58, ft_y + 10, 3, 44); // Chrome front bumper
+    // Windshield
+    ctx.fillStyle = '#2f3640';
+    ctx.fillRect(ft_x + 48, ft_y + 15, 6, 34);
+    // Silver treadplate equipment deck
+    ctx.fillStyle = '#7f8c8d';
+    ctx.fillRect(ft_x + 8, ft_y + 14, 30, 36);
+    // Coiled yellow fire hose & brass fittings
+    ctx.fillStyle = '#f1c40f';
+    ctx.fillRect(ft_x + 12, ft_y + 24, 18, 16);
+    ctx.fillStyle = '#e67e22';
+    ctx.fillRect(ft_x + 10, ft_y + 28, 4, 8);
+    // Silver ladder rails on sides
+    ctx.strokeStyle = '#dcdde1';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(ft_x + 8, ft_y + 12, 28, 6);
+    ctx.strokeRect(ft_x + 8, ft_y + 46, 28, 6);
+    // Emergency roof lightbar (Red & Amber)
+    ctx.fillStyle = '#e84118';
+    ctx.fillRect(ft_x + 44, ft_y + 14, 4, 10);
+    ctx.fillStyle = '#ffa502';
+    ctx.fillRect(ft_x + 44, ft_y + 40, 4, 10);
+    // Headlights
+    ctx.fillStyle = '#f5cd79';
+    ctx.fillRect(ft_x + 57, ft_y + 13, 2, 6);
+    ctx.fillRect(ft_x + 57, ft_y + 45, 2, 6);
+    this.registerTile('car_firetruck', 0, R12);
+
+    // 1, 12: Pickup Truck (Bison 4x4)
+    const pu_x = 1 * S, pu_y = R12 * S;
+    // Offroad tires
+    ctx.fillStyle = '#111111';
+    ctx.fillRect(pu_x + 10, pu_y + 7, 12, 6);
+    ctx.fillRect(pu_x + 42, pu_y + 7, 12, 6);
+    ctx.fillRect(pu_x + 10, pu_y + 51, 12, 6);
+    ctx.fillRect(pu_x + 42, pu_y + 51, 12, 6);
+    // Navy blue body
+    ctx.fillStyle = '#0c2461';
+    ctx.beginPath();
+    ctx.roundRect(pu_x + 6, pu_y + 11, 52, 42, 4);
+    ctx.fill();
+    // Cab roof
+    ctx.fillStyle = '#1e3799';
+    ctx.fillRect(pu_x + 28, pu_y + 13, 18, 38);
+    // Windshield & rear window
+    ctx.fillStyle = '#2f3640';
+    ctx.fillRect(pu_x + 40, pu_y + 16, 6, 32);
+    ctx.fillRect(pu_x + 26, pu_y + 18, 3, 28);
+    // Open truck bed with black liner
+    ctx.fillStyle = '#1e272e';
+    ctx.fillRect(pu_x + 8, pu_y + 15, 17, 34);
+    // Tool box in bed
+    ctx.fillStyle = '#718093';
+    ctx.fillRect(pu_x + 21, pu_y + 16, 4, 32);
+    // Headlights
+    ctx.fillStyle = '#f5cd79';
+    ctx.fillRect(pu_x + 57, pu_y + 13, 2, 7);
+    ctx.fillRect(pu_x + 57, pu_y + 44, 2, 7);
+    this.registerTile('car_pickup', 1, R12);
+
+    // 2, 12: Delivery Box Truck (Camioneta Marfa)
+    const truckbox_x = 2 * S, truckbox_y = R12 * S;
+    // Wheels
+    ctx.fillStyle = '#111111';
+    ctx.fillRect(truckbox_x + 10, truckbox_y + 7, 12, 6);
+    ctx.fillRect(truckbox_x + 44, truckbox_y + 7, 12, 6);
+    ctx.fillRect(truckbox_x + 10, truckbox_y + 51, 12, 6);
+    ctx.fillRect(truckbox_x + 44, truckbox_y + 51, 12, 6);
+    // Cab (White with front bumper)
+    ctx.fillStyle = '#f5f6fa';
+    ctx.fillRect(truckbox_x + 42, truckbox_y + 12, 16, 40);
+    ctx.fillStyle = '#2f3640';
+    ctx.fillRect(truckbox_x + 50, truckbox_y + 15, 6, 34); // Windshield
+    // Aerodynamic cab roof fairing
+    ctx.fillStyle = '#dcdde1';
+    ctx.beginPath();
+    ctx.moveTo(truckbox_x + 42, truckbox_y + 16);
+    ctx.lineTo(truckbox_x + 48, truckbox_y + 20);
+    ctx.lineTo(truckbox_x + 48, truckbox_y + 44);
+    ctx.lineTo(truckbox_x + 42, truckbox_y + 48);
+    ctx.closePath();
+    ctx.fill();
+    // Cargo Box (Large square box)
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(truckbox_x + 4, truckbox_y + 10, 38, 44);
+    ctx.strokeStyle = '#718093';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(truckbox_x + 4, truckbox_y + 10, 38, 44);
+    // Express blue/orange logistics stripe
+    ctx.fillStyle = '#0984e3';
+    ctx.fillRect(truckbox_x + 8, truckbox_y + 22, 30, 4);
+    ctx.fillStyle = '#e67e22';
+    ctx.fillRect(truckbox_x + 8, truckbox_y + 26, 30, 4);
+    // Rear rollup door handle
+    ctx.fillStyle = '#2d3436';
+    ctx.fillRect(truckbox_x + 4, truckbox_y + 24, 2, 16);
+    // Headlights
+    ctx.fillStyle = '#f5cd79';
+    ctx.fillRect(truckbox_x + 57, truckbox_y + 14, 2, 6);
+    ctx.fillRect(truckbox_x + 57, truckbox_y + 44, 2, 6);
+    this.registerTile('car_truck_box', 2, R12);
+
+    // 3, 12: SWAT Tactical Enforcer Truck
+    const swat_x = 3 * S, swat_y = R12 * S;
+    // Armored tires
+    ctx.fillStyle = '#0a0d10';
+    ctx.fillRect(swat_x + 9, swat_y + 6, 13, 6);
+    ctx.fillRect(swat_x + 42, swat_y + 6, 13, 6);
+    ctx.fillRect(swat_x + 9, swat_y + 52, 13, 6);
+    ctx.fillRect(swat_x + 42, swat_y + 52, 13, 6);
+    // Matte dark tactical body
+    ctx.fillStyle = '#1e272e';
+    ctx.beginPath();
+    ctx.roundRect(swat_x + 5, swat_y + 10, 54, 44, 3);
+    ctx.fill();
+    // Heavy front steel bullbar
+    ctx.fillStyle = '#485460';
+    ctx.fillRect(swat_x + 57, swat_y + 10, 4, 44);
+    ctx.fillRect(swat_x + 54, swat_y + 18, 4, 28);
+    // Slit armored windshield
+    ctx.fillStyle = '#2f3542';
+    ctx.fillRect(swat_x + 44, swat_y + 17, 5, 30);
+    // Roof tactical turret / hatch
+    ctx.fillStyle = '#2f3542';
+    ctx.beginPath();
+    ctx.arc(swat_x + 28, swat_y + 32, 11, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#57606f';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    // Dual emergency tactical light pods (Blue & Red)
+    ctx.fillStyle = '#0984e3';
+    ctx.fillRect(swat_x + 36, swat_y + 13, 5, 8);
+    ctx.fillStyle = '#e84118';
+    ctx.fillRect(swat_x + 36, swat_y + 43, 5, 8);
+    // Headlights
+    ctx.fillStyle = '#f5cd79';
+    ctx.fillRect(swat_x + 57, swat_y + 13, 2, 5);
+    ctx.fillRect(swat_x + 57, swat_y + 46, 2, 5);
+    this.registerTile('car_swat_enforcer', 3, R12);
+
+    // 4, 12: VIP Luxury Stretch Limousine
+    const lim_x = 4 * S, lim_y = R12 * S;
+    // Wheels (long wheelbase)
+    ctx.fillStyle = '#111111';
+    ctx.fillRect(lim_x + 8, lim_y + 8, 12, 5);
+    ctx.fillRect(lim_x + 46, lim_y + 8, 12, 5);
+    ctx.fillRect(lim_x + 8, lim_y + 51, 12, 5);
+    ctx.fillRect(lim_x + 46, lim_y + 51, 12, 5);
+    // Long black sleek body
+    ctx.fillStyle = '#0f1419';
+    ctx.beginPath();
+    ctx.roundRect(lim_x + 4, lim_y + 12, 58, 40, 5);
+    ctx.fill();
+    // Chrome trim strip along sides
+    ctx.fillStyle = '#bdc3c7';
+    ctx.fillRect(lim_x + 6, lim_y + 12, 52, 2);
+    ctx.fillRect(lim_x + 6, lim_y + 50, 52, 2);
+    // Privacy glass windows & twin sunroofs
+    ctx.fillStyle = '#1e272e';
+    ctx.fillRect(lim_x + 14, lim_y + 15, 36, 34);
+    ctx.fillStyle = '#2c3e50';
+    ctx.fillRect(lim_x + 44, lim_y + 17, 6, 30); // Windshield
+    ctx.fillRect(lim_x + 12, lim_y + 19, 4, 26); // Rear window
+    // Twin tinted glass sunroofs
+    ctx.fillStyle = '#34495e';
+    ctx.fillRect(lim_x + 22, lim_y + 22, 8, 20);
+    ctx.fillRect(lim_x + 33, lim_y + 22, 8, 20);
+    // Headlights
+    ctx.fillStyle = '#f5cd79';
+    ctx.fillRect(lim_x + 60, lim_y + 14, 2, 7);
+    ctx.fillRect(lim_x + 60, lim_y + 43, 2, 7);
+    this.registerTile('car_limo', 4, R12);
+
+    // 5, 12: Octane-99 Fuel Tanker Truck
+    const tk_x = 5 * S, tk_y = R12 * S;
+    // Wheels (6 wheels)
+    ctx.fillStyle = '#111111';
+    ctx.fillRect(tk_x + 8, tk_y + 7, 12, 6);
+    ctx.fillRect(tk_x + 24, tk_y + 7, 12, 6);
+    ctx.fillRect(tk_x + 44, tk_y + 7, 12, 6);
+    ctx.fillRect(tk_x + 8, tk_y + 51, 12, 6);
+    ctx.fillRect(tk_x + 24, tk_y + 51, 12, 6);
+    ctx.fillRect(tk_x + 44, tk_y + 51, 12, 6);
+    // Industrial orange cab
+    ctx.fillStyle = '#d35400';
+    ctx.fillRect(tk_x + 44, tk_y + 13, 15, 38);
+    ctx.fillStyle = '#2f3640';
+    ctx.fillRect(tk_x + 52, tk_y + 16, 5, 32); // Windshield
+    // Cylindrical silver tanker trailer
+    ctx.fillStyle = '#bdc3c7';
+    ctx.beginPath();
+    ctx.roundRect(tk_x + 4, tk_y + 11, 38, 42, 8);
+    ctx.fill();
+    ctx.fillStyle = '#ecf0f1';
+    ctx.fillRect(tk_x + 8, tk_y + 15, 30, 34); // Chrome body
+    // Top maintenance catwalk
+    ctx.fillStyle = '#7f8c8d';
+    ctx.fillRect(tk_x + 10, tk_y + 28, 26, 8);
+    // Flammable red hazard diamond
+    ctx.fillStyle = '#e74c3c';
+    ctx.beginPath();
+    ctx.moveTo(tk_x + 22, tk_y + 24);
+    ctx.lineTo(tk_x + 26, tk_y + 28);
+    ctx.lineTo(tk_x + 22, tk_y + 32);
+    ctx.lineTo(tk_x + 18, tk_y + 28);
+    ctx.closePath();
+    ctx.fill();
+    // Headlights
+    ctx.fillStyle = '#f5cd79';
+    ctx.fillRect(tk_x + 58, tk_y + 14, 2, 6);
+    ctx.fillRect(tk_x + 58, tk_y + 44, 2, 6);
+    this.registerTile('car_gas_tanker', 5, R12);
+
+    // 6, 12: Inferno V8 Street Hotrod
+    const hr_x = 6 * S, hr_y = R12 * S;
+    // Wheels (Fat rear tires, standard front tires)
+    ctx.fillStyle = '#050709';
+    ctx.fillRect(hr_x + 8, hr_y + 5, 14, 8); // Fat rear left
+    ctx.fillRect(hr_x + 8, hr_y + 51, 14, 8); // Fat rear right
+    ctx.fillRect(hr_x + 42, hr_y + 8, 10, 5); // Front left
+    ctx.fillRect(hr_x + 42, hr_y + 51, 10, 5); // Front right
+    // Gloss black hotrod body
+    ctx.fillStyle = '#111111';
+    ctx.beginPath();
+    ctx.roundRect(hr_x + 12, hr_y + 13, 44, 38, 4);
+    ctx.fill();
+    // Flame graphics (Orange & Yellow)
+    ctx.fillStyle = '#e67e22';
+    ctx.beginPath();
+    ctx.moveTo(hr_x + 44, hr_y + 15);
+    ctx.lineTo(hr_x + 26, hr_y + 19);
+    ctx.lineTo(hr_x + 34, hr_y + 23);
+    ctx.lineTo(hr_x + 22, hr_y + 28);
+    ctx.lineTo(hr_x + 46, hr_y + 29);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#f1c40f';
+    ctx.beginPath();
+    ctx.moveTo(hr_x + 46, hr_y + 17);
+    ctx.lineTo(hr_x + 32, hr_y + 20);
+    ctx.lineTo(hr_x + 38, hr_y + 24);
+    ctx.lineTo(hr_x + 28, hr_y + 28);
+    ctx.lineTo(hr_x + 48, hr_y + 29);
+    ctx.closePath();
+    ctx.fill();
+    // Chopped roof & windshield
+    ctx.fillStyle = '#2c3e50';
+    ctx.fillRect(hr_x + 28, hr_y + 17, 6, 30);
+    // Exposed chrome V8 supercharger scoop on hood
+    ctx.fillStyle = '#dcdde1';
+    ctx.fillRect(hr_x + 36, hr_y + 26, 9, 12);
+    ctx.fillStyle = '#e74c3c'; // Triple red throttle butterflies
+    ctx.fillRect(hr_x + 44, hr_y + 27, 2, 3);
+    ctx.fillRect(hr_x + 44, hr_y + 31, 2, 3);
+    ctx.fillRect(hr_x + 44, hr_y + 35, 2, 3);
+    // Headlights
+    ctx.fillStyle = '#f5cd79';
+    ctx.fillRect(hr_x + 55, hr_y + 15, 2, 6);
+    ctx.fillRect(hr_x + 55, hr_y + 43, 2, 6);
+    this.registerTile('car_hotrod', 6, R12);
+
+    // =============================================================
+    // EXPANDED POI ROOFTOPS & AMENITIES (Row 13)
+    // =============================================================
+    const R13 = 13;
+
+    // 0, 13: Fire Station Headquarters Roof (Pompieri)
+    const fs_x = 0 * S, fs_y = R13 * S;
+    ctx.fillStyle = '#6d211d'; // Brick firehouse red
+    ctx.fillRect(fs_x, fs_y, S, S);
+    // Yellow hazard border lines
+    ctx.strokeStyle = '#f1c40f';
+    ctx.lineWidth = 2.5;
+    ctx.strokeRect(fs_x + 4, fs_y + 4, S - 8, S - 8);
+    // Maltese Fire Emblem in center
+    ctx.fillStyle = '#f5f6fa';
+    ctx.beginPath();
+    ctx.arc(fs_x + 32, fs_y + 32, 18, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#c0392b';
+    ctx.fillRect(fs_x + 28, fs_y + 18, 8, 28);
+    ctx.fillRect(fs_x + 18, fs_y + 28, 28, 8);
+    // Gold fire department star text
+    ctx.fillStyle = '#f1c40f';
+    ctx.font = 'bold 9px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('FIRE 01', fs_x + 32, fs_y + 35);
+    this.registerTile('roof_firestation', 0, R13);
+
+    // 1, 13: School & University Academy Roof (Scoala)
+    const sc_x = 1 * S, sc_y = R13 * S;
+    ctx.fillStyle = '#4a5568'; // University slate gray
+    ctx.fillRect(sc_x, sc_y, S, S);
+    // Copper/bronze central bell cupola
+    ctx.fillStyle = '#b7791f';
+    ctx.beginPath();
+    ctx.arc(sc_x + 32, sc_y + 32, 16, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#d69e2e';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    // White clock face in center
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(sc_x + 32, sc_y + 32, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#1a202c';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    // Solar panels on school roof
+    ctx.fillStyle = '#2b6cb0';
+    ctx.fillRect(sc_x + 8, sc_y + 8, 14, 18);
+    ctx.fillRect(sc_x + S - 22, sc_y + 8, 14, 18);
+    this.registerTile('roof_school', 1, R13);
+
+    // 2, 13: Gas Station Canopy Roof (Benzinarie)
+    const gc_x = 2 * S, gc_y = R13 * S;
+    ctx.fillStyle = '#f8f9fa'; // White modern canopy
+    ctx.fillRect(gc_x, gc_y, S, S);
+    // Glowing neon green perimeter fascia
+    ctx.strokeStyle = '#00b894';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(gc_x + 2, gc_y + 2, S - 4, S - 4);
+    // Octane 99 logo
+    ctx.fillStyle = '#00b894';
+    ctx.font = '900 11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('OCTANE 99', gc_x + 32, gc_y + 26);
+    ctx.fillStyle = '#d63031';
+    ctx.font = 'bold 9px monospace';
+    ctx.fillText('GAS // 24H', gc_x + 32, gc_y + 42);
+    this.registerTile('roof_gas_canopy', 2, R13);
+
+    // 3, 13: Fuel Pump Island Ground Feature
+    const gp_x = 3 * S, gp_y = R13 * S;
+    ctx.fillStyle = '#747d8c'; // Concrete island slab
+    ctx.fillRect(gp_x + 8, gp_y + 12, S - 16, S - 24);
+    ctx.strokeStyle = '#f1c40f'; // Safety yellow curb
+    ctx.lineWidth = 2;
+    ctx.strokeRect(gp_x + 8, gp_y + 12, S - 16, S - 24);
+    // Pump 1 (Regular Gasoline - Red)
+    ctx.fillStyle = '#e84118';
+    ctx.fillRect(gp_x + 16, gp_y + 20, 10, 24);
+    ctx.fillStyle = '#2f3542';
+    ctx.fillRect(gp_x + 18, gp_y + 24, 6, 8); // Digital LED
+    // Pump 2 (Diesel / Premium - Blue)
+    ctx.fillStyle = '#0984e3';
+    ctx.fillRect(gp_x + 38, gp_y + 20, 10, 24);
+    ctx.fillStyle = '#2f3542';
+    ctx.fillRect(gp_x + 40, gp_y + 24, 6, 8);
+    this.registerTile('gas_pumps', 3, R13);
+
+    // 4, 13: Nightclub VIP Rooftop (Cluburi)
+    const nightclub_x = 4 * S, nightclub_y = R13 * S;
+    ctx.fillStyle = '#0d0814'; // Dark violet night roof
+    ctx.fillRect(nightclub_x, nightclub_y, S, S);
+    // Hot pink neon border
+    ctx.strokeStyle = '#fd79a8';
+    ctx.lineWidth = 2.5;
+    ctx.strokeRect(nightclub_x + 4, nightclub_y + 4, S - 8, S - 8);
+    // Neon Pulse club sign in center
+    ctx.fillStyle = '#e056fd';
+    ctx.font = '900 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('CLUB', nightclub_x + 32, nightclub_y + 24);
+    ctx.fillStyle = '#00d2d3';
+    ctx.font = 'bold 8px sans-serif';
+    ctx.fillText('ZAIBATSU', nightclub_x + 32, nightclub_y + 36);
+    ctx.fillStyle = '#f368e0';
+    ctx.font = '900 7px monospace';
+    ctx.fillText('VIP // LOUNGE', nightclub_x + 32, nightclub_y + 48);
+    this.registerTile('roof_nightclub', 4, R13);
+
+    // 5, 13: Pub & Tavern Rooftop (Baruri)
+    const bar_x = 5 * S, bar_y = R13 * S;
+    ctx.fillStyle = '#3b2616'; // Cedar pub shingles
+    ctx.fillRect(bar_x, bar_y, S, S);
+    // Glowing neon amber beer mug sign
+    ctx.fillStyle = '#f39c12';
+    ctx.fillRect(bar_x + 24, bar_y + 18, 14, 18);
+    ctx.fillStyle = '#f5f6fa'; // Frothy white foam
+    ctx.fillRect(bar_x + 22, bar_y + 15, 18, 5);
+    ctx.strokeStyle = '#e67e22';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(bar_x + 38, bar_y + 21, 5, 12); // Mug handle
+    ctx.fillStyle = '#f1c40f';
+    ctx.font = 'bold 8px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('SALOON 99', bar_x + 32, bar_y + 48);
+    this.registerTile('roof_bar', 5, R13);
+
+    // 6, 13: School Athletic Sports Court (Teren Sport)
+    const sports_x = 6 * S, sports_y = R13 * S;
+    ctx.fillStyle = '#0984e3'; // Blue acrylic court
+    ctx.fillRect(sports_x, sports_y, S, S);
+    ctx.fillStyle = '#00b894'; // Green apron
+    ctx.fillRect(sports_x, sports_y, S, 6);
+    ctx.fillRect(sports_x, sports_y + S - 6, S, 6);
+    // White court boundary lines & center circle
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(sports_x + 8, sports_y + 8, S - 16, S - 16);
+    ctx.beginPath();
+    ctx.arc(sports_x + 32, sports_y + 32, 10, 0, Math.PI * 2);
+    ctx.stroke();
+    this.registerTile('sports_court', 6, R13);
+
+    // 7, 13: 24/7 Supermarket / Convenience Store (Magazine)
+    const cm_x = 7 * S, cm_y = R13 * S;
+    ctx.fillStyle = '#2d3436';
+    ctx.fillRect(cm_x, cm_y, S, S);
+    // Large commercial green/yellow banner
+    ctx.fillStyle = '#00b894';
+    ctx.fillRect(cm_x + 4, cm_y + 16, S - 8, 32);
+    ctx.fillStyle = '#f1c40f';
+    ctx.font = '900 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('24 / 7', cm_x + 32, cm_y + 30);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 7px sans-serif';
+    ctx.fillText('SUPERSTORE', cm_x + 32, cm_y + 42);
+    this.registerTile('convenience_mart', 7, R13);
   }
 
   destroy(): void {

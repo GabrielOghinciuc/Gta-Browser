@@ -359,7 +359,8 @@ export class PoliceSystem {
         carX = headingSouth ? (spawnCol + 0.68) * S : (spawnCol + 0.32) * S;
       }
 
-      const copCar = new Car(carX, carY, carAngle, 'cop');
+      const copType = (this.wantedLevel >= 4 && Math.random() < 0.45) ? 'swat_enforcer' : 'cop';
+      const copCar = new Car(carX, carY, carAngle, copType);
       copCar.hasDriver = true;
       copCar.sirenActive = true;
       // Start car already moving with speed towards player
@@ -412,6 +413,8 @@ export class PoliceSystem {
 
     if (map.isSolid(targetCol, targetRow)) return false;
 
+    const rbType = this.wantedLevel >= 4 ? 'swat_enforcer' : 'cop';
+
     // Spawn 2 roadblock cruisers parked perpendicularly across the road
     if (isH) {
       // Horizontal road: cars placed perpendicular (facing North/South)
@@ -420,12 +423,12 @@ export class PoliceSystem {
       const car2X = targetCol * S + 46;
       const car2Y = targetRow * S + 42;
 
-      const rb1 = new Car(car1X, car1Y, Math.PI / 2 + 0.1, 'cop');
+      const rb1 = new Car(car1X, car1Y, Math.PI / 2 + 0.1, rbType);
       rb1.isRoadblock = true;
       rb1.hasDriver = true;
       rb1.sirenActive = true;
 
-      const rb2 = new Car(car2X, car2Y, -Math.PI / 2 - 0.1, 'cop');
+      const rb2 = new Car(car2X, car2Y, -Math.PI / 2 - 0.1, rbType);
       rb2.isRoadblock = true;
       rb2.hasDriver = true;
       rb2.sirenActive = true;
@@ -439,12 +442,12 @@ export class PoliceSystem {
       const car2X = targetCol * S + 42;
       const car2Y = targetRow * S + 46;
 
-      const rb1 = new Car(car1X, car1Y, 0.1, 'cop');
+      const rb1 = new Car(car1X, car1Y, 0.1, rbType);
       rb1.isRoadblock = true;
       rb1.hasDriver = true;
       rb1.sirenActive = true;
 
-      const rb2 = new Car(car2X, car2Y, Math.PI - 0.1, 'cop');
+      const rb2 = new Car(car2X, car2Y, Math.PI - 0.1, rbType);
       rb2.isRoadblock = true;
       rb2.hasDriver = true;
       rb2.sirenActive = true;
