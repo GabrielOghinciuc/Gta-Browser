@@ -206,6 +206,8 @@ export class Car {
   aiStuckTimer = 0;
   sirenActive = false;
   sirenTimer = 0;
+  isRoadblock = false;
+  wreckTimer = 0;
   aiRoundaboutExitAngle: number | null = null;
   aiRoundaboutTime = 0;
 
@@ -256,7 +258,7 @@ export class Car {
     this.isPlayerControlled = false;
   }
 
-  update(dt: number, throttle: number, steering: number, handbrake: boolean): void {
+  update(dt: number, throttle: number, steering: number, handbrake: boolean, speedMultiplier = 1.0): void {
     if (this.isWreck) {
       throttle = 0;
       steering = 0;
@@ -279,8 +281,9 @@ export class Car {
     let lateralSpeed = this.vx * rightX + this.vy * rightY;
 
     // Acceleration & Braking
+    const effectiveMaxSpeed = this.maxSpeed * speedMultiplier;
     if (throttle > 0) {
-      if (forwardSpeed < this.maxSpeed) {
+      if (forwardSpeed < effectiveMaxSpeed) {
         forwardSpeed += this.acceleration * throttle * dt;
       }
     } else if (throttle < 0) {
@@ -350,13 +353,22 @@ export class Car {
     targetX: number,
     targetY: number,
     wantedLevel: number,
-    time = 0
+    time = 0,
+    targetVx = 0,
+    targetVy = 0
   ): void {
     if (this.isPlayerControlled || !this.hasDriver) {
       // Unoccupied or player-controlled car stays parked with handbrake
       if (!this.isPlayerControlled) {
         this.update(dt, 0, 0, true);
       }
+      return;
+    }
+
+    // Roadblock units remain firmly parked across the road with sirens flashing
+    if (this.config.isCop && this.isRoadblock) {
+      this.sirenActive = true;
+      this.update(dt, 0, 0, true);
       return;
     }
 
@@ -371,19 +383,53 @@ export class Car {
     // 1. Police pursuit mode
     if (this.config.isCop && wantedLevel > 0) {
       this.sirenActive = true;
-      const dx = targetX - this.x;
-      const dy = targetY - this.y;
+
+      // Predictive lead intercept targeting based on wanted escalation
+      const leadTime = Math.min(0.65, 0.1 * wantedLevel);
+      const aimX = targetX + targetVx * leadTime;
+      const aimY = targetY + targetVy * leadTime;
+
+      const dx = aimX - this.x;
+      const dy = aimY - this.y;
       const dist = Math.hypot(dx, dy);
 
-      if (dist < 1500) {
-        const desiredAngle = Math.atan2(dy, dx);
-        let angleDiff = desiredAngle - this.angle;
-        while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
-        while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+      if (dist < 1600) {
+        // Speed & acceleration scaling with wanted level
+        const speedScale = 1.0 + (wantedLevel - 1) * 0.12;
+        const accelScale = 1.0 + (wantedLevel - 1) * 0.15;
 
-        steering = Math.max(-1, Math.min(1, angleDiff * 2.5));
-        throttle = dist > 45 ? 1.0 : -0.2;
-        this.update(dt, throttle, steering, false);
+        // Anti-stuck detection for police units
+        if (Math.abs(this.speed) < 18) {
+          this.aiStuckTimer += dt;
+        } else {
+          this.aiStuckTimer = Math.max(0, this.aiStuckTimer - dt * 2);
+        }
+
+        if (this.aiStuckTimer > 0.8) {
+          // Stuck against wall / obstacle -> reverse and steer away
+          throttle = -0.9;
+          steering = (Math.floor(time * 2) % 2 === 0) ? 0.9 : -0.9;
+          if (this.aiStuckTimer > 2.0) {
+            this.aiStuckTimer = 0;
+          }
+        } else {
+          const desiredAngle = Math.atan2(dy, dx);
+          let angleDiff = desiredAngle - this.angle;
+          while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+          while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+
+          const steerSens = Math.min(4.2, 2.6 + wantedLevel * 0.25);
+          steering = Math.max(-1, Math.min(1, angleDiff * steerSens));
+
+          // At wanted 3+, aggressively ram into player without slowing down
+          if (wantedLevel >= 3) {
+            throttle = 1.0;
+          } else {
+            throttle = dist > 42 ? 0.95 : 0.35;
+          }
+        }
+
+        this.update(dt, throttle * accelScale, steering, false, speedScale);
         return;
       }
     } else {
@@ -992,7 +1038,12 @@ export class Car {
       const bSirenX = roofX + rightX * 5;
       const bSirenY = roofY + rightY * 5;
 
+      const haloUV = atlas.getUVs('light_halo');
+
       if (flash) {
+        if (haloUV) {
+          batch.drawRegion(haloUV, rSirenX, rSirenY, 74, 74, 0, 0.5, 0.5, 1.0, 0.1, 0.1, 0.38);
+        }
         batch.drawRegion(
           whiteUV,
           rSirenX,
@@ -1008,6 +1059,9 @@ export class Car {
           0.9
         );
       } else {
+        if (haloUV) {
+          batch.drawRegion(haloUV, bSirenX, bSirenY, 74, 74, 0, 0.5, 0.5, 0.1, 0.4, 1.0, 0.38);
+        }
         batch.drawRegion(
           whiteUV,
           bSirenX,

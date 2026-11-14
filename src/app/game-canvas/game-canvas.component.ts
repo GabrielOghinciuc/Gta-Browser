@@ -50,6 +50,7 @@ export class GameCanvasComponent implements AfterViewInit, OnDestroy {
   readonly score = signal(0);
   readonly multiplier = signal(1);
   readonly wantedLevel = signal(0);
+  readonly isEvading = signal(false);
   readonly health = signal(100);
   readonly armor = signal(100);
   readonly cameraMode = signal('North Up');
@@ -97,6 +98,7 @@ export class GameCanvasComponent implements AfterViewInit, OnDestroy {
       this.score.set(state.score);
       this.multiplier.set(state.multiplier);
       this.wantedLevel.set(state.wantedLevel);
+      this.isEvading.set(!!state.isEvading);
       this.health.set(state.health);
       this.armor.set(state.armor);
       this.cameraMode.set(state.cameraMode);

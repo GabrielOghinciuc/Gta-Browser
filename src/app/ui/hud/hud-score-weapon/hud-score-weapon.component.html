@@ -12,8 +12,8 @@
   </div>
 
   <!-- Wanted Level Stars -->
-  <div class="wanted-stars">
-    <span class="wanted-label">WANTED</span>
+  <div class="wanted-stars" [class.evading]="isEvading()">
+    <span class="wanted-label">{{ isEvading() ? 'EVADING' : 'WANTED' }}</span>
     <div class="stars-cluster">
       @for (star of stars; track star) {
       <span class="star-badge" [class.active]="star <= wantedLevel()">

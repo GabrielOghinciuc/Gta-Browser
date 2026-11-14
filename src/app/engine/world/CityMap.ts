@@ -184,7 +184,7 @@ export class CityMap {
     return designated.includes(`${blockC},${blockR}`);
   }
 
-  private isRoad(c: number, r: number): boolean {
+  isRoad(c: number, r: number): boolean {
     const tile = this.getTile(c, r);
     return (
       tile === TileType.ROAD_HORIZONTAL ||

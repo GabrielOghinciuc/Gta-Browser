@@ -12,6 +12,7 @@ import { TileType } from './types';
 import { DevConsole, IGameEngineConsoleBridge } from './console/DevConsole';
 import { WeatherTimeSystem, WeatherType } from './world/WeatherTimeSystem';
 import { ShopSystem, Shop } from './world/ShopSystem';
+import { PoliceSystem } from './world/PoliceSystem';
 
 export interface RadarBlip {
   x: number;
@@ -26,6 +27,7 @@ export interface GameState {
   score: number;
   multiplier: number;
   wantedLevel: number;
+  isEvading?: boolean;
   health: number;
   armor: number;
   cameraMode: string;
@@ -78,7 +80,13 @@ export class GameEngine implements IGameEngineConsoleBridge {
   // Stats & HUD
   private score = 0;
   private multiplier = 1;
-  private wantedLevel = 0;
+  readonly police = new PoliceSystem();
+  get wantedLevel(): number {
+    return this.police.wantedLevel;
+  }
+  set wantedLevel(val: number) {
+    this.police.setWantedLevel(val, (msg, dur) => this.showToast(msg, dur));
+  }
   private health = 100;
   private armor = 100;
   private toastMessage = 'Welcome to GTA 2 WebGL!';
@@ -441,8 +449,7 @@ export class GameEngine implements IGameEngineConsoleBridge {
   }
 
   setWantedLevel(level: number): void {
-    this.wantedLevel = Math.max(0, Math.min(6, level));
-    this.showToast(level === 0 ? 'POLICE PURSUIT CLEARED!' : `WANTED LEVEL: ${this.wantedLevel} STARS`, 2.0);
+    this.police.setWantedLevel(level, (msg, dur) => this.showToast(msg, dur));
   }
 
   addMoney(amount: number): void {
@@ -865,6 +872,7 @@ export class GameEngine implements IGameEngineConsoleBridge {
         score: this.score,
         multiplier: this.multiplier,
         wantedLevel: this.wantedLevel,
+        isEvading: this.police.isEvading,
         health: this.health,
         armor: this.armor,
         cameraMode: this.camera.mode === 'north_up' ? 'North Up' : 'Follow Car',
@@ -1026,10 +1034,32 @@ export class GameEngine implements IGameEngineConsoleBridge {
       targetSpeed = this.playerOnFoot.speed;
     }
 
+    const playerVx = this.playerMode === 'driving' && this.activeCar
+      ? this.activeCar.vx
+      : Math.cos(this.playerOnFoot.angle) * this.playerOnFoot.speed;
+    const playerVy = this.playerMode === 'driving' && this.activeCar
+      ? this.activeCar.vy
+      : Math.sin(this.playerOnFoot.angle) * this.playerOnFoot.speed;
+
     // 3. Update Camera
     this.camera.follow(targetX, targetY, targetAngle, targetSpeed, dt);
 
-    // 4. Update AI Traffic Cars
+    // 4. Update Dynamic Police Dispatch & Wanted System
+    this.police.update(
+      dt,
+      this.cars,
+      this.activeCar,
+      targetX,
+      targetY,
+      playerVx,
+      playerVy,
+      this.playerMode === 'driving',
+      this.input.shoot,
+      this.map,
+      (msg, dur) => this.showToast(msg, dur)
+    );
+
+    // 5. Update AI Traffic Cars
     for (const car of this.cars) {
       if (car !== this.activeCar) {
         car.updateAI(
@@ -1039,7 +1069,9 @@ export class GameEngine implements IGameEngineConsoleBridge {
           targetX,
           targetY,
           this.wantedLevel,
-          this.gameTime
+          this.gameTime,
+          playerVx,
+          playerVy
         );
       }
 
@@ -1062,14 +1094,25 @@ export class GameEngine implements IGameEngineConsoleBridge {
       }
     }
 
-    // 5. Car-to-Car Collisions
+    // 6. Car-to-Car Collisions
     for (let i = 0; i < this.cars.length; i++) {
       for (let j = i + 1; j < this.cars.length; j++) {
-        this.cars[i].resolveCarCollision(this.cars[j]);
+        const c1 = this.cars[i];
+        const c2 = this.cars[j];
+        const collided = c1.resolveCarCollision(c2);
+        if (collided && this.activeCar && (c1 === this.activeCar || c2 === this.activeCar)) {
+          const other = c1 === this.activeCar ? c2 : c1;
+          const relSpeed = Math.abs(this.activeCar.speed);
+          if (other.config.isCop) {
+            this.police.recordCopCarHit(relSpeed, (msg, dur) => this.showToast(msg, dur));
+          } else {
+            this.police.recordCivilianCarHit(relSpeed, (msg, dur) => this.showToast(msg, dur));
+          }
+        }
       }
     }
 
-    // 6. On Foot: Danger from Moving Cars
+    // 7. On Foot: Danger from Moving Cars
     if (this.playerMode === 'on_foot') {
       for (const car of this.cars) {
         if (Math.abs(car.speed) > 80) {
@@ -1087,7 +1130,7 @@ export class GameEngine implements IGameEngineConsoleBridge {
       }
     }
 
-    // 7. Update & Stream Pedestrians
+    // 8. Update & Stream Pedestrians
     for (const ped of this.pedestrians) {
       ped.update(dt, this.map, targetX, targetY, targetSpeed);
 
@@ -1098,9 +1141,7 @@ export class GameEngine implements IGameEngineConsoleBridge {
           if (dist < 28 && Math.abs(this.activeCar.speed) > 55) {
             ped.alive = false;
             this.score += 100;
-            if (this.wantedLevel < 6 && Math.random() < 0.4) {
-              this.wantedLevel++;
-            }
+            this.police.recordPedestrianHit((msg, dur) => this.showToast(msg, dur));
           }
         }
 
@@ -1145,7 +1186,7 @@ export class GameEngine implements IGameEngineConsoleBridge {
         if (toast) this.showToast(toast, 2.0);
       },
       () => {
-        if (this.wantedLevel < 6) this.wantedLevel++;
+        this.police.addWantedLevel(1, (msg, dur) => this.showToast(msg, dur));
       }
     );
 
@@ -1220,8 +1261,7 @@ export class GameEngine implements IGameEngineConsoleBridge {
 
             this.score += 150;
             if (nearestCar.config.isCop) {
-              this.wantedLevel = Math.min(6, this.wantedLevel + 1);
-              this.showToast('HIJACKED POLICE CRUISER! +150', 2.5);
+              this.police.recordCarjackCop((msg, dur) => this.showToast(msg, dur));
             } else {
               this.showToast(`CARJACKED ${nearestCar.config.name.toUpperCase()}! +150`, 2.5);
             }

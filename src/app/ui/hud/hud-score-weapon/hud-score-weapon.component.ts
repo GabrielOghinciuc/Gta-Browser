@@ -12,6 +12,7 @@ export class HudScoreWeaponComponent {
   readonly score = input.required<number>();
   readonly multiplier = input<number>(1);
   readonly wantedLevel = input<number>(0);
+  readonly isEvading = input<boolean>(false);
   readonly currentWeapon = input<WeaponType>('pistol');
   readonly weaponCode = input<string>('9MM');
   readonly weaponName = input<string>('Pistol 9mm');

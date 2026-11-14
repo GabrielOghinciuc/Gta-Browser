@@ -85,6 +85,20 @@
     padding: 3px 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.42);
 
+    &.evading {
+      border-color: #00d2d3;
+      box-shadow: 0 4px 14px rgba(0, 210, 211, 0.35);
+
+      .wanted-label {
+        color: #00d2d3;
+        animation: evadeBlink 0.5s infinite alternate;
+      }
+
+      .star-badge.active .star-svg {
+        animation: evadeBlink 0.5s infinite alternate;
+      }
+    }
+
     .wanted-label {
       font-family: 'Impact', sans-serif;
       font-size: 11px;
@@ -314,4 +328,9 @@
 @keyframes multPulse {
   0% { transform: scale(1); }
   100% { transform: scale(1.05); }
+}
+
+@keyframes evadeBlink {
+  0% { opacity: 0.25; }
+  100% { opacity: 1; }
 }
