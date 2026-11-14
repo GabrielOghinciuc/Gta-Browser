@@ -1,0 +1,67 @@
+<div class="window-backdrop" (click)="onClose()">
+  <div
+    class="retro-window"
+    [class]="'theme-' + theme()"
+    [class.pos-top]="position() === 'top'"
+    [style.width]="width()"
+    [style.max-height]="maxHeight()"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Industrial Rivet Marks -->
+    <div class="rivet rivet-tl">+</div>
+    <div class="rivet rivet-tr">+</div>
+    <div class="rivet rivet-bl">+</div>
+    <div class="rivet rivet-br">+</div>
+
+    <!-- Scanline CRT Texture Overlay -->
+    <div class="scanlines"></div>
+
+    <!-- Header Bar -->
+    <div class="window-header">
+      <div class="header-left">
+        <div class="hazard-indicator"></div>
+        <div class="title-group">
+          <div class="main-title">
+            <span class="title-text">{{ title() }}</span>
+            @if (badge()) {
+            <span class="title-badge">{{ badge() }}</span>
+            }
+          </div>
+          @if (subtitle()) {
+          <div class="sub-title">// {{ subtitle() }}</div>
+          }
+        </div>
+      </div>
+
+      <div class="header-right">
+        <ng-content select="[window-header-actions]"></ng-content>
+        @if (showClose()) {
+        <button class="retro-close-btn" (click)="onClose()" title="Close (ESC)">
+          <span class="btn-bracket">[</span>
+          <span class="btn-char">X</span>
+          <span class="btn-bracket">]</span>
+        </button>
+        }
+      </div>
+    </div>
+
+    <!-- Industrial Divider with Subtle Hazard Stripes -->
+    <div class="header-ribbon">
+      <div class="ribbon-stripes"></div>
+    </div>
+
+    <!-- Scrollable Window Content Body -->
+    <div class="window-body">
+      <ng-content></ng-content>
+    </div>
+
+    <!-- Window Footer -->
+    <div class="window-footer">
+      <ng-content select="[window-footer]"></ng-content>
+      <div class="footer-status">
+        <span class="status-dot"></span>
+        <span class="status-txt">ANYWHERE CITY // SYSTEM READY</span>
+      </div>
+    </div>
+  </div>
+</div>

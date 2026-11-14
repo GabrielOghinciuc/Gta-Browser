@@ -1,0 +1,161 @@
+:host {
+  display: contents;
+}
+
+/* Corner Rivet Helper */
+.hud-rivet {
+  position: absolute;
+  color: #485460;
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.7;
+
+  &.rivet-tl { top: 3px; left: 6px; }
+  &.rivet-tr { top: 3px; right: 6px; }
+  &.rivet-bl { bottom: 3px; left: 6px; }
+  &.rivet-br { bottom: 3px; right: 6px; }
+}
+
+.hud-bottom-right {
+  position: absolute;
+  bottom: 20px;
+  right: 28px;
+  pointer-events: auto;
+
+  .speedo-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: rgba(22, 24, 21, 0.9);
+    border: 1px solid #8d7440;
+    padding: 7px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.42);
+    width: 142px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &.drift-active {
+      border-color: #ffa502;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.42), 0 0 20px rgba(255, 165, 2, 0.6);
+      animation: driftPulse 0.4s infinite alternate;
+    }
+
+    .speedo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #1e2630;
+
+      .speedo-title {
+        font-family: 'Impact', sans-serif;
+        font-size: 8px;
+        letter-spacing: 0.9px;
+        color: #d7bd68;
+      }
+
+      .speedo-status {
+        font-family: 'Consolas', monospace;
+        font-size: 8px;
+        font-weight: 700;
+        color: #747d8c;
+
+        &.gear-rev {
+          color: #ff4757;
+          font-weight: 900;
+        }
+      }
+    }
+
+    .speedo-display {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+
+      .speedo-val {
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 29px;
+        font-weight: 900;
+        color: #d7bd68;
+        line-height: 1;
+        letter-spacing: 0.5px;
+      }
+
+      .speedo-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        .speedo-unit {
+          font-family: 'Impact', sans-serif;
+          font-size: 10px;
+          letter-spacing: 0.7px;
+          color: #ffffff;
+        }
+
+        .drift-badge {
+          background: #ffa502;
+          color: #000;
+          font-family: 'Impact', sans-serif;
+          font-size: 8px;
+          padding: 1px 4px;
+          border-radius: 2px;
+          letter-spacing: 0.5px;
+          animation: driftBlink 0.3s infinite alternate;
+        }
+
+        .speedo-sub {
+          font-family: 'Consolas', monospace;
+          font-size: 8px;
+          color: #57606f;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+
+    /* 10-Segment Dynamic LED Tachometer */
+    .speedo-bar {
+      display: flex;
+      gap: 2px;
+      padding-top: 1px;
+
+      .bar-seg {
+        flex: 1;
+        height: 4px;
+        background: #141b22;
+        border: 1px solid #1e2630;
+        transition: background 0.1s;
+
+        &.lit {
+          background: #8e9d4c;
+          border-color: #b9c56c;
+
+          &:nth-child(n+8) {
+            background: #ffa502;
+            border-color: #ffc048;
+          }
+
+          &:nth-child(n+10) {
+            background: #ff4757;
+            border-color: #ff6b81;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes driftPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.02); }
+}
+
+@keyframes driftBlink {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}

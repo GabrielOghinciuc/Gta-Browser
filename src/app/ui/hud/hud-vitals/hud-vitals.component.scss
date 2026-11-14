@@ -1,0 +1,153 @@
+:host {
+  display: contents;
+}
+
+.hud-top-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: auto;
+
+  .vital-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: rgba(22, 24, 21, 0.9);
+    border: 1px solid #655b4a;
+    padding: 8px 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.42);
+    width: fit-content;
+
+    .vital-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .vital-label {
+        font-family: 'Impact', 'Arial Black', sans-serif;
+        font-size: 11px;
+        letter-spacing: 1.2px;
+        width: 50px;
+
+        &.health-lbl { color: #ff4757; }
+        &.armor-lbl { color: #d7bd68; }
+      }
+
+      .vital-segments {
+        display: flex;
+        gap: 3px;
+
+        .vital-seg {
+          width: 12px;
+          height: 9px;
+          background: #141b22;
+          border: 1px solid #1e2630;
+          transition: background 0.15s;
+
+          &.health-seg.filled {
+            background: #39a85b;
+            border-color: #78cc80;
+
+            &.critical {
+              background: #ff4757;
+              border-color: #ff6b81;
+              box-shadow: 0 0 8px rgba(255, 71, 87, 0.7);
+              animation: critFlash 0.5s infinite alternate;
+            }
+          }
+
+          &.armor-seg.filled {
+            background: #b9a64e;
+            border-color: #e0cc72;
+          }
+        }
+      }
+
+      .vital-val {
+        font-family: 'Consolas', monospace;
+        font-size: 12px;
+        font-weight: 900;
+        color: #ffffff;
+        min-width: 34px;
+        text-align: right;
+      }
+    }
+  }
+
+  .badges-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .hud-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(22, 24, 21, 0.9);
+      border: 1px solid #4b5148;
+      border-top: 2px solid #89713e;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: #a4b0be;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.42);
+
+      .badge-label {
+        font-family: 'Impact', sans-serif;
+        letter-spacing: 1px;
+        color: #d7bd68;
+      }
+
+      .badge-value {
+        color: #ffffff;
+        font-weight: 700;
+        font-family: 'Consolas', monospace;
+      }
+
+      .badge-hint {
+        color: #57606f;
+        font-family: monospace;
+      }
+
+      &.vehicle-badge {
+        border-top-color: #89713e;
+        .badge-label { color: #d7bd68; }
+
+        &.on-foot {
+          border-top-color: #89713e;
+          .badge-label { color: #d7bd68; }
+        }
+      }
+    }
+  }
+
+  .district-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(22, 24, 21, 0.9);
+    border: 1px solid #ffa502;
+    padding: 3px 10px;
+    font-size: 11px;
+    width: fit-content;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.42);
+
+    .zone-icon {
+      color: #ffa502;
+      font-family: monospace;
+      font-weight: 900;
+    }
+
+    .zone-text {
+      font-family: 'Impact', sans-serif;
+      letter-spacing: 1px;
+      color: #ced6e0;
+      text-transform: uppercase;
+    }
+  }
+}
+
+@keyframes critFlash {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}

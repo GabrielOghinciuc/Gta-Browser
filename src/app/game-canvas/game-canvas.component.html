@@ -1,0 +1,74 @@
+<div class="game-viewport">
+  <canvas #gameCanvas class="game-canvas"></canvas>
+
+  <!-- GTA 2 Retro HUD Overlay -->
+  <div class="hud-layer">
+    <!-- Top Center Toast Alert -->
+    <app-hud-notifications [toastMessage]="toastMessage()" />
+
+    <!-- Top Left: Health, Armor, Vehicle & Meteo/District -->
+    <app-hud-vitals
+      [health]="health()"
+      [armor]="armor()"
+      [playerMode]="playerMode()"
+      [vehicleName]="vehicleName()"
+      [timeString]="timeString()"
+      [weather]="weather()"
+      [cameraMode]="cameraMode()"
+      [district]="district()"
+    />
+
+    <!-- Top Right: Score, Multiplier, Wanted Level & Weapon Terminal -->
+    <app-hud-score-weapon
+      [score]="score()"
+      [multiplier]="multiplier()"
+      [wantedLevel]="wantedLevel()"
+      [currentWeapon]="currentWeapon()"
+      [weaponCode]="weaponCode()"
+      [weaponName]="weaponName()"
+      [ammo]="ammo()"
+      (selectWeapon)="selectWeapon($event)"
+    />
+
+    <!-- Bottom Left: GPS Radar Scanner & Compass -->
+    <app-hud-radar
+      [radarBlips]="radarBlips()"
+      [playerAngle]="playerAngle()"
+      [district]="district()"
+    />
+
+    <!-- Bottom Right: Retro Dashboard Speedometer & Segmented Tachometer -->
+    <app-hud-speedometer
+      [speed]="speed()"
+      [gear]="gear()"
+      [isDrifting]="isDrifting()"
+      [playerMode]="playerMode()"
+    />
+  </div>
+
+  <!-- Controls / Help Dialog -->
+  @if (showHelp()) {
+  <app-controls-guide (close)="toggleHelp()"></app-controls-guide>
+  }
+
+  <!-- Developer Console Overlay (Toggle with F1) -->
+  @if (isConsoleOpen()) {
+  <app-dev-console-dialog
+    [messages]="consoleMessages()"
+    (close)="toggleConsole()"
+    (execute)="executeConsoleCommand($event)"
+    (requestPreviousHistory)="onConsolePrevHistory($event)"
+    (requestNextHistory)="onConsoleNextHistory($event)"
+  ></app-dev-console-dialog>
+  }
+
+  <!-- Interactive City Shop Window -->
+  @if (activeShop()) {
+  <app-shop-dialog
+    [shop]="activeShop()!"
+    [score]="score()"
+    (close)="closeShop()"
+    (buyItem)="buyShopItem($event)"
+  ></app-shop-dialog>
+  }
+</div>

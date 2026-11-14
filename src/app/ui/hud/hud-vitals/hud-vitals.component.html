@@ -1,0 +1,58 @@
+<div class="hud-top-left">
+  <!-- Segmented Arcade Health & Armor Gauge -->
+  <div class="vital-container">
+    <!-- Health Bar -->
+    <div class="vital-row health-row">
+      <span class="vital-label health-lbl">HEALTH</span>
+      <div class="vital-segments">
+        @for (seg of segments; track seg) {
+        <div class="vital-seg health-seg" [class.filled]="health() >= seg * 10" [class.critical]="health() <= 30"></div>
+        }
+      </div>
+      <span class="vital-val">{{ health() }}%</span>
+    </div>
+
+    <!-- Armor Bar -->
+    <div class="vital-row armor-row">
+      <span class="vital-label armor-lbl">ARMOR</span>
+      <div class="vital-segments">
+        @for (seg of segments; track seg) {
+        <div class="vital-seg armor-seg" [class.filled]="armor() >= seg * 10"></div>
+        }
+      </div>
+      <span class="vital-val">{{ armor() }}%</span>
+    </div>
+  </div>
+
+  <!-- Industrial Badges Row -->
+  <div class="badges-row">
+    <div class="hud-badge vehicle-badge" [class.on-foot]="playerMode() === 'on_foot'">
+      <span class="badge-label">VEH:</span>
+      <span class="badge-value">{{ vehicleName() }}</span>
+    </div>
+
+    <div class="hud-badge time-badge">
+      <span class="badge-label">TIME:</span>
+      <span class="badge-value">{{ timeString() }}</span>
+    </div>
+
+    <div class="hud-badge weather-badge">
+      <span class="badge-label">METEO:</span>
+      <span class="badge-value">{{ weather() }}</span>
+    </div>
+
+    @if (playerMode() === 'driving') {
+    <div class="hud-badge camera-badge">
+      <span class="badge-label">CAM:</span>
+      <span class="badge-value">{{ cameraMode() }}</span>
+      <span class="badge-hint">[C]</span>
+    </div>
+    }
+  </div>
+
+  <!-- District / Zone Indicator -->
+  <div class="district-badge">
+    <span class="zone-icon">&gt;&gt;</span>
+    <span class="zone-text">{{ district() }}</span>
+  </div>
+</div>

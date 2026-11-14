@@ -1,0 +1,43 @@
+<app-ui-window
+  [title]="shop().name.toUpperCase()"
+  [subtitle]="shop().tagline.toUpperCase()"
+  [theme]="shopTheme()"
+  width="640px"
+  [badge]="shop().type.toUpperCase()"
+  (close)="onClose()"
+>
+  <div class="shop-window-body">
+    <div class="shop-banner">
+      <span class="shop-notice">AUTHORISED ANYWHERE CITY VENDOR // CASH ONLY</span>
+      <span class="shop-funds">AVAILABLE: ${{ score() }}</span>
+    </div>
+
+    <div class="shop-item-list">
+      @for (item of shopItems(); track item.type) {
+      <div class="shop-item-card">
+        <div class="item-left">
+          <div class="item-badge">{{ item.badge }}</div>
+          <div class="item-details">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="item-desc">{{ item.desc }}</span>
+          </div>
+        </div>
+        <div class="item-right">
+          <span class="item-price">{{ item.cost === 0 ? 'FREE' : '$' + item.cost }}</span>
+          <button
+            class="shop-buy-btn"
+            [disabled]="score() < item.cost"
+            (click)="onBuy(item)"
+          >
+            {{ item.cost === 0 ? 'EXECUTE' : 'PURCHASE' }}
+          </button>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div window-footer class="shop-footer-bar">
+    <span>TRANSACTION SECURED BY DIRECT HIT RECORDS // ESC TO EXIT</span>
+  </div>
+</app-ui-window>

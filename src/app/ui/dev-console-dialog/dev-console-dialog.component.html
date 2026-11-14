@@ -1,0 +1,66 @@
+<app-ui-window
+  title="DEVELOPER & CHEAT CONSOLE"
+  subtitle="ANYWHERE CITY COMMAND SHELL"
+  theme="green"
+  width="860px"
+  maxHeight="90vh"
+  position="top"
+  badge="[F1 / ESC]"
+  (close)="onClose()"
+>
+  <!-- Quick Action Toolbar -->
+  <div class="console-quickbar">
+    <button class="quick-btn heal" (click)="quick('heal')">Heal 100%</button>
+    <button class="quick-btn god" (click)="quick('god')">God Mode</button>
+    <button class="quick-btn weapons" (click)="quick('weapons')">All Guns</button>
+    <button class="quick-btn infammo" (click)="quick('infammo')">Inf Ammo</button>
+    <button class="quick-btn car-sports" (click)="quick('car sports')">Sports Car</button>
+    <button class="quick-btn car-cop" (click)="quick('car cop')">Police Cruiser</button>
+    <button class="quick-btn car-muscle" (click)="quick('car muscle')">Stallion V8</button>
+    <button class="quick-btn repair" (click)="quick('repair')">Repair Car</button>
+    <button class="quick-btn clearwanted" (click)="quick('clearwanted')">Wanted 0</button>
+    <button class="quick-btn blowup" (click)="quick('blowup')">Explode Cars</button>
+    <button class="quick-btn grass-heal" (click)="quick('spawnhealth')">Heal on Grass</button>
+    <button class="quick-btn grass-rpg" (click)="quick('spawnweapon rocket')">RPG on Grass</button>
+    <button class="quick-btn grass-pickups" (click)="quick('spawngrass')">8 Grass Pickups</button>
+    <button class="quick-btn time-day" (click)="quick('time day')">Day 12:00</button>
+    <button class="quick-btn time-night" (click)="quick('time night')">Night 00:00</button>
+    <button class="quick-btn time-dusk" (click)="quick('time dusk')">Dusk 19:00</button>
+    <button class="quick-btn weather-rain" (click)="quick('weather rain')">Rain</button>
+    <button class="quick-btn weather-storm" (click)="quick('weather storm')">Storm</button>
+    <button class="quick-btn weather-clear" (click)="quick('weather clear')">Clear Sky</button>
+    <button class="quick-btn weather-fog" (click)="quick('weather fog')">Fog</button>
+    <button class="quick-btn money" (click)="quick('money 100000')">+$100,000</button>
+    <button class="quick-btn help" (click)="quick('help')">Help</button>
+  </div>
+
+  <!-- Terminal Output Log -->
+  <div #consoleLogs class="console-logs">
+    @for (msg of messages(); track $index) {
+    <div class="log-line" [class]="msg.type">
+      <span class="log-ts">[{{ msg.timestamp }}]</span>
+      <span class="log-text">{{ msg.text }}</span>
+    </div>
+    }
+  </div>
+
+  <!-- Input Line -->
+  <div class="console-input-bar">
+    <span class="prompt-sym">&gt;</span>
+    <input
+      #consoleInput
+      type="text"
+      class="cmd-input"
+      placeholder="Type cheat (e.g. 'heal', 'weapons', 'time night', 'weather storm', 'car cop', 'help')..."
+      autocomplete="off"
+      spellcheck="false"
+      (keydown.enter)="submit(consoleInput)"
+      (keydown)="handleKeyDown($event, consoleInput)"
+    />
+    <button class="submit-btn" (click)="submit(consoleInput)">SEND</button>
+  </div>
+
+  <div window-footer class="console-footer-info">
+    <span>CHEATS ENABLED // ENGINE CORE ONLINE</span>
+  </div>
+</app-ui-window>

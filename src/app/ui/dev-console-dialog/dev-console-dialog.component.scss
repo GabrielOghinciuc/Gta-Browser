@@ -1,0 +1,162 @@
+.console-quickbar {
+  padding: 8px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: rgba(14, 19, 24, 0.9);
+  border-bottom: 1px solid #1e2b37;
+
+  .quick-btn {
+    background: rgba(30, 39, 46, 0.8);
+    border: 1px solid #3d4a57;
+    color: #ced6e0;
+    padding: 4px 9px;
+    border-radius: 2px;
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    &.heal:hover { background: #2ed573; color: #000; border-color: #2ed573; }
+    &.god:hover { background: #ffa502; color: #000; border-color: #ffa502; }
+    &.weapons:hover { background: #ff4757; color: #fff; border-color: #ff4757; }
+    &.infammo:hover { background: #9b59b6; color: #fff; border-color: #9b59b6; }
+    &.car-sports:hover { background: #ff4757; color: #fff; border-color: #ff4757; }
+    &.car-cop:hover { background: #3742fa; color: #fff; border-color: #70a1ff; }
+    &.car-muscle:hover { background: #2ed573; color: #000; border-color: #2ed573; }
+    &.repair:hover { background: #1e90ff; color: #fff; border-color: #1e90ff; }
+    &.clearwanted:hover { background: #ffa502; color: #000; border-color: #ffa502; }
+    &.blowup:hover { background: #ff4757; color: #fff; border-color: #ff4757; }
+    &.grass-heal:hover { background: #2ed573; color: #000; border-color: #2ed573; }
+    &.grass-rpg:hover { background: #e056fd; color: #fff; border-color: #e056fd; }
+    &.grass-pickups:hover { background: #26de81; color: #000; border-color: #26de81; }
+    &.time-day:hover { background: #ffa502; color: #000; border-color: #ffa502; }
+    &.time-night:hover { background: #2f3542; color: #70a1ff; border-color: #70a1ff; }
+    &.time-dusk:hover { background: #e67e22; color: #fff; border-color: #e67e22; }
+    &.weather-rain:hover { background: #3498db; color: #fff; border-color: #3498db; }
+    &.weather-storm:hover { background: #8e44ad; color: #fff; border-color: #8e44ad; }
+    &.weather-clear:hover { background: #2ed573; color: #000; border-color: #2ed573; }
+    &.weather-fog:hover { background: #95a5a6; color: #000; border-color: #95a5a6; }
+    &.money:hover { background: #ffa502; color: #000; border-color: #ffa502; }
+    &.help:hover { background: #70a1ff; color: #000; border-color: #70a1ff; }
+  }
+}
+
+.console-logs {
+  height: 280px;
+  overflow-y: auto;
+  padding: 12px 16px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  background: rgba(8, 11, 14, 0.95);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #2ed573;
+    border-radius: 2px;
+  }
+
+  .log-line {
+    display: flex;
+    gap: 8px;
+
+    .log-ts {
+      color: #57606f;
+      flex-shrink: 0;
+    }
+
+    .log-text {
+      word-break: break-word;
+    }
+
+    &.cmd .log-text {
+      color: #70a1ff;
+      font-weight: bold;
+    }
+
+    &.success .log-text {
+      color: #2ed573;
+    }
+
+    &.warn .log-text {
+      color: #ffa502;
+    }
+
+    &.error .log-text {
+      color: #ff4757;
+    }
+
+    &.info .log-text {
+      color: #a4b0be;
+    }
+  }
+}
+
+.console-input-bar {
+  display: flex;
+  align-items: center;
+  background: #0f141a;
+  border-top: 1px solid #1e2b37;
+  padding: 8px 12px;
+  gap: 10px;
+
+  .prompt-sym {
+    color: #2ed573;
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: 900;
+  }
+
+  .cmd-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 14px;
+
+    &::placeholder {
+      color: #57606f;
+    }
+  }
+
+  .submit-btn {
+    background: #2ed573;
+    color: #0b150f;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 2px;
+    font-family: 'Impact', sans-serif;
+    letter-spacing: 0.8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &:hover {
+      background: #7bed9f;
+      box-shadow: 0 0 10px rgba(46, 213, 115, 0.6);
+    }
+  }
+}
+
+.console-footer-info {
+  font-family: 'Consolas', monospace;
+  font-size: 10px;
+  color: #747d8c;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

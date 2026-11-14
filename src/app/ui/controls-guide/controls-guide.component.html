@@ -1,0 +1,186 @@
+<app-ui-window
+  title="GTA 2 WEBGL"
+  subtitle="CONTROLS & CITY GUIDE"
+  theme="amber"
+  width="620px"
+  badge="HELP"
+  (close)="onClose()"
+>
+  <div class="controls-guide">
+    <!-- SYSTEM & DEBUG -->
+    <div class="guide-section">
+      <div class="section-tag tag-green">
+        <span class="tag-bar"></span>
+        <span class="tag-text">COMMAND CONSOLE</span>
+      </div>
+      <div class="control-grid">
+        <div class="control-item item-green">
+          <div class="key-cell">
+            <kbd class="retro-key key-green">F1</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Open Developer & Cheat Console</span>
+            <span class="action-sub">Spawn cars, heal, change weather & time, trigger explosions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMBAT & WEAPONS -->
+    <div class="guide-section">
+      <div class="section-tag tag-crimson">
+        <span class="tag-bar"></span>
+        <span class="tag-text">WEAPONS & COMBAT</span>
+      </div>
+      <div class="control-grid">
+        <div class="control-item item-crimson">
+          <div class="key-cell">
+            <kbd class="retro-key key-crimson">L-CLICK</kbd>
+            <span class="key-sep">/</span>
+            <kbd class="retro-key key-crimson">CTRL</kbd>
+            <span class="key-sep">/</span>
+            <kbd class="retro-key key-crimson">J</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Fire Weapon / Drive-By</span>
+            <span class="action-sub">Aim with crosshair on foot, or drive-by shooting in vehicle</span>
+          </div>
+        </div>
+
+        <div class="control-item item-crimson">
+          <div class="key-cell">
+            <div class="key-group">
+              <kbd class="retro-key key-crimson">1</kbd>
+              <kbd class="retro-key key-crimson">2</kbd>
+              <kbd class="retro-key key-crimson">3</kbd>
+              <kbd class="retro-key key-crimson">4</kbd>
+            </div>
+            <span class="key-sep">/</span>
+            <kbd class="retro-key key-crimson">WHEEL</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Cycle Weapons</span>
+            <span class="action-sub">Pistol (1), Uzi (2), Shotgun (3), Rocket Launcher (4)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VEHICLES & MOVEMENT -->
+    <div class="guide-section">
+      <div class="section-tag tag-cyan">
+        <span class="tag-bar"></span>
+        <span class="tag-text">VEHICLES & MOVEMENT</span>
+      </div>
+      <div class="control-grid">
+        <div class="control-item item-cyan">
+          <div class="key-cell">
+            <kbd class="retro-key key-cyan">F</kbd>
+            <span class="key-sep">/</span>
+            <kbd class="retro-key key-cyan">ENTER</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Enter / Exit Car / Carjack</span>
+            <span class="action-sub">Walk up to any driver or parked vehicle</span>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <div class="key-cell">
+            <kbd class="retro-key">W</kbd>
+            <span class="key-sep">/</span>
+            <kbd class="retro-key">UP</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Accelerate / Move Forward</span>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <div class="key-cell">
+            <kbd class="retro-key">S</kbd>
+            <span class="key-sep">/</span>
+            <kbd class="retro-key">DOWN</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Brake & Reverse / Move Backward</span>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <div class="key-cell">
+            <kbd class="retro-key">A</kbd>
+            <span class="key-sep">/</span>
+            <kbd class="retro-key">D</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Steer Left & Right / Strafe</span>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <div class="key-cell">
+            <kbd class="retro-key">SPACE</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Handbrake & Drift</span>
+            <span class="action-sub">Powerslide corners in vehicle</span>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <div class="key-cell">
+            <kbd class="retro-key">SHIFT</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Sprint</span>
+            <span class="action-sub">Double walking speed on foot</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CITY INTERACTION & CAMERA -->
+    <div class="guide-section">
+      <div class="section-tag tag-amber">
+        <span class="tag-bar"></span>
+        <span class="tag-text">CITY INTERACTION & CAMERA</span>
+      </div>
+      <div class="control-grid">
+        <div class="control-item item-amber">
+          <div class="key-cell">
+            <kbd class="retro-key key-amber">E</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Enter City Shops & Facilities</span>
+            <span class="action-sub">Hospitals, Police Precincts, Ammu-Nation, Pay 'N' Spray, Car Dealers, Gas Stations, Parking</span>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <div class="key-cell">
+            <kbd class="retro-key">C</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Toggle Camera</span>
+            <span class="action-sub">Switch between Fixed North-Up and Dynamic Follow</span>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <div class="key-cell">
+            <kbd class="retro-key">R</kbd>
+          </div>
+          <div class="desc-cell">
+            <span class="action-name">Reset / Respawn</span>
+            <span class="action-sub">Respawn at city center if stuck or upside-down</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div window-footer class="guide-footer-info">
+    <span>DISTRICTS: COMMERCIAL // DOWNTOWN // RESIDENTIAL // INDUSTRIAL -- RADIO BROADCAST ACTIVE</span>
+  </div>
+</app-ui-window>

@@ -1,0 +1,32 @@
+<div class="hud-bottom-right">
+  <div class="speedo-box" [class.drift-active]="isDrifting()">
+    <!-- Corner Rivets -->
+    <div class="hud-rivet rivet-tl">+</div>
+    <div class="hud-rivet rivet-tr">+</div>
+    <div class="hud-rivet rivet-bl">+</div>
+    <div class="hud-rivet rivet-br">+</div>
+    <div class="speedo-header">
+      <span class="speedo-title">SPEED</span>
+      <span class="speedo-status" [class.gear-rev]="gear() === 'REV'">GEAR {{ gear() }}</span>
+    </div>
+
+    <div class="speedo-display">
+      <div class="speedo-val">{{ formattedSpeed() }}</div>
+      <div class="speedo-meta">
+        <span class="speedo-unit">{{ playerMode() === 'driving' ? 'KM/H' : 'SPD' }}</span>
+        @if (isDrifting()) {
+        <span class="drift-badge">DRIFT</span>
+        } @else {
+        <span class="speedo-sub">{{ playerMode() === 'driving' ? 'GEAR AUTO' : 'TACTICAL' }}</span>
+        }
+      </div>
+    </div>
+
+    <!-- 10-Segment Dynamic LED Tachometer -->
+    <div class="speedo-bar">
+      @for (bar of tachometerSegments; track bar) {
+      <div class="bar-seg" [class.lit]="speed() >= bar * 12"></div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,212 @@
+.controls-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  user-select: none;
+
+  .guide-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Impact', 'Arial Black', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+
+      .tag-bar {
+        display: inline-block;
+        width: 4px;
+        height: 12px;
+      }
+
+      &.tag-green {
+        color: #2ed573;
+        .tag-bar { background: #2ed573; box-shadow: 0 0 6px #2ed573; }
+      }
+      &.tag-crimson {
+        color: #ff4757;
+        .tag-bar { background: #ff4757; box-shadow: 0 0 6px #ff4757; }
+      }
+      &.tag-cyan {
+        color: #00d2d3;
+        .tag-bar { background: #00d2d3; box-shadow: 0 0 6px #00d2d3; }
+      }
+      &.tag-amber {
+        color: #ffa502;
+        .tag-bar { background: #ffa502; box-shadow: 0 0 6px #ffa502; }
+      }
+    }
+
+    .control-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: rgba(8, 12, 16, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 5px;
+    }
+
+    .control-item {
+      display: grid;
+      grid-template-columns: minmax(170px, 200px) minmax(0, 1fr);
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 10px;
+      border-left: 2px solid transparent;
+      background: rgba(255, 255, 255, 0.025);
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.07);
+        transform: translateX(2px);
+      }
+
+      &.item-green {
+        border-left-color: #2ed573;
+        background: rgba(46, 213, 115, 0.06);
+      }
+      &.item-crimson {
+        border-left-color: #ff4757;
+        background: rgba(255, 71, 87, 0.06);
+      }
+      &.item-cyan {
+        border-left-color: #00d2d3;
+        background: rgba(0, 210, 211, 0.06);
+      }
+      &.item-amber {
+        border-left-color: #ffa502;
+        background: rgba(255, 165, 2, 0.06);
+      }
+
+      .key-cell {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+
+        .key-group {
+          display: inline-flex;
+          gap: 4px;
+        }
+
+        .key-sep {
+          color: #57606f;
+          font-family: monospace;
+          font-size: 11px;
+          font-weight: 700;
+        }
+      }
+
+      .desc-cell {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+        padding-left: 14px;
+
+        .action-name {
+          color: #f1f2f6;
+          font-size: 13px;
+          font-weight: 700;
+          letter-spacing: 0.3px;
+        }
+
+        .action-sub {
+          color: #8395a7;
+          font-size: 11px;
+          font-family: 'Consolas', monospace;
+          line-height: 1.25;
+          overflow-wrap: anywhere;
+        }
+      }
+    }
+  }
+
+  /* 3D Mechanical Arcade Keycaps */
+  .retro-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 8px;
+    min-width: 26px;
+    height: 24px;
+    box-sizing: border-box;
+    background: #1e272e;
+    color: #ced6e0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: 1px solid #485460;
+    border-bottom: 2px solid #0f1418;
+    box-shadow: 0 2px 0 #050709, inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    white-space: nowrap;
+
+    &.key-green {
+      background: #143823;
+      border-color: #2ed573;
+      border-bottom-color: #0b1e13;
+      color: #2ed573;
+      box-shadow: 0 2px 0 #050709, 0 0 6px rgba(46, 213, 115, 0.3);
+    }
+
+    &.key-crimson {
+      background: #3a151b;
+      border-color: #ff4757;
+      border-bottom-color: #1f070b;
+      color: #ff6b81;
+      box-shadow: 0 2px 0 #050709, 0 0 6px rgba(255, 71, 87, 0.3);
+    }
+
+    &.key-cyan {
+      background: #0f303a;
+      border-color: #00d2d3;
+      border-bottom-color: #051419;
+      color: #00d2d3;
+      box-shadow: 0 2px 0 #050709, 0 0 6px rgba(0, 210, 211, 0.3);
+    }
+
+    &.key-amber {
+      background: #3a2a0a;
+      border-color: #ffa502;
+      border-bottom-color: #1f1402;
+      color: #ffa502;
+      box-shadow: 0 2px 0 #050709, 0 0 6px rgba(255, 165, 2, 0.3);
+    }
+  }
+}
+
+.guide-footer-info {
+  font-family: 'Consolas', monospace;
+  font-size: 10px;
+  color: #747d8c;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+  .controls-guide {
+    gap: 12px;
+
+    .guide-section {
+      gap: 6px;
+
+      .control-item {
+        grid-template-columns: minmax(110px, 1fr);
+        gap: 7px;
+        padding: 8px;
+
+        .desc-cell {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+}

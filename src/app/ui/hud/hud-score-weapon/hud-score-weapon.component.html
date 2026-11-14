@@ -1,0 +1,155 @@
+<div class="hud-top-right">
+  <!-- Arcade Digital Score & Multiplier -->
+  <div class="score-container">
+    <div class="multiplier-badge" [class.boosted]="multiplier() > 1">
+      <span class="mult-prefix">x</span>
+      <span class="mult-val">{{ multiplier() }}</span>
+    </div>
+    <div class="score-display">
+      <span class="currency-symbol">$</span>
+      <span class="score-digits">{{ formattedScore() }}</span>
+    </div>
+  </div>
+
+  <!-- Wanted Level Stars -->
+  <div class="wanted-stars">
+    <span class="wanted-label">WANTED</span>
+    <div class="stars-cluster">
+      @for (star of stars; track star) {
+      <span class="star-badge" [class.active]="star <= wantedLevel()">
+        <svg class="star-svg" viewBox="0 0 24 24">
+          <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+        </svg>
+      </span>
+      }
+    </div>
+  </div>
+
+  <!-- Active Weapon HUD (Industrial Weapon Terminal) -->
+  <div class="weapon-hud-card" [class]="'wpn-' + currentWeapon()">
+    <!-- Corner Rivets -->
+    <div class="hud-rivet rivet-tl">+</div>
+    <div class="hud-rivet rivet-tr">+</div>
+    <div class="hud-rivet rivet-bl">+</div>
+    <div class="hud-rivet rivet-br">+</div>
+
+    <!-- Header Ribbon -->
+    <div class="weapon-header-strip">
+      <span class="strip-cat">ARMOUR {{ weaponCode() }}</span>
+    </div>
+
+    <!-- Weapon Icon & Ammo Readout -->
+    <div class="weapon-main">
+      <div class="weapon-icon-box">
+        <div class="crosshair ch-tl"></div>
+        <div class="crosshair ch-tr"></div>
+        <div class="crosshair ch-bl"></div>
+        <div class="crosshair ch-br"></div>
+
+        @switch (currentWeapon()) {
+        @case ('fist') {
+        <svg class="wpn-svg wpn-fist-svg" viewBox="0 0 48 32" fill="currentColor">
+          <path
+            d="M10 24c-2-2-2-5 0-7l7-7c1-1 2-1 3 0l1 1 3-4c1-1 3-1 4 0l1 2 2-2c1-1 3 0 3 1l1 3 2-1c2 0 3 2 2 3l-3 8c-1 3-4 5-7 5H15c-2 0-4-1-5-2Z" />
+          <path d="m18 13 5 5m0-9 4 7m3-5 2 4M13 21h16" fill="none" stroke="#1b1b16" stroke-width="1.5"
+            stroke-linecap="round" />
+        </svg>
+        }
+        @case ('pistol') {
+        <svg class="wpn-svg wpn-pistol-svg" viewBox="0 0 48 28" fill="currentColor" stroke-linejoin="round"
+          stroke-linecap="round">
+          <path d="M2 9 h30 c1 0 1.5.5 2 1.5 l3 0 v4 h-3 v1 h-5 v-1 H14 l-1 3 h-4 c-.5 0 -1.5-.5 -2-1.5 l-1-5 z" />
+          <path
+            d="M13 15 c1 0 2 1 2 2.5 v1 c0 1 -1 2 -2 2 h-3 l-4 6.5 c-.5 1 -1.5 1.5 -2.5 1.5 h-3 c-1 0 -1.5-.8 -1.2-1.8 l3.5 -9.7 c.3-1 1.2-2 2.2-2 z" />
+          <path d="M12 15 c0 2 -1 3 -2.5 3 h-1 v-1 h1 c1 0 1.5-.5 1.5-2 z" opacity="0.75" />
+          <rect x="35" y="8" width="1.5" height="1.5" />
+          <rect x="4" y="7.5" width="2" height="2" />
+          <path d="M8 11h23M14 15h13M10 22h5" fill="none" stroke="#12161c" stroke-width="1.1" opacity="0.8" />
+          <path d="M37 10h5" fill="none" stroke="#f5cd79" stroke-width="1.2" />
+        </svg>
+        }
+        @case ('uzi') {
+        <svg class="wpn-svg wpn-uzi-svg" viewBox="0 0 48 28" fill="currentColor" stroke-linejoin="round"
+          stroke-linecap="round">
+          <rect x="38" y="9" width="8" height="3" rx="0.5" />
+          <rect x="36" y="8" width="2" height="5" />
+          <path d="M8 8 h28 v7 H8 z" />
+          <rect x="18" y="6" width="5" height="2" rx="0.5" />
+          <path d="M16 15 h8 l-2 6.5 h-7 z" />
+          <path d="M18 21.5 h5 l-1.5 6 h-4.5 z" fill="#00d2d3" />
+          <path d="M4 9 h4 v5 H4 z" />
+          <path d="M3 13 l-2 5 h11" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.75" />
+          <path d="M10 10h25M27 15h7M19 18h4" fill="none" stroke="#12161c" stroke-width="1.1" opacity="0.85" />
+          <path d="M39 10h5" fill="none" stroke="#f5cd79" stroke-width="1.2" />
+        </svg>
+        }
+        @case ('shotgun') {
+        <svg class="wpn-svg wpn-shotgun-svg" viewBox="0 0 54 20" fill="currentColor" stroke-linejoin="round"
+          stroke-linecap="round">
+          <rect x="18" y="5" width="34" height="2.8" />
+          <circle cx="51" cy="4" r="1" />
+          <rect x="22" y="8" width="26" height="2.2" opacity="0.85" />
+          <rect x="28" y="7.5" width="13" height="4.5" rx="1" fill="#ffa502" />
+          <path d="M12 4.5 h12 v7.5 h-12 z" />
+          <rect x="15" y="6" width="5" height="2" fill="#12161c" opacity="0.7" />
+          <path d="M12 9 c-2 2 -4 4 -6 4 h-5 c-1 0 -1.5-1 -1.5-2 v-6 c0-1 .5-1.5 1.5-1.5 h3 c3 0 5 1.5 8 2.5 z" />
+          <path d="M20 6h28M24 10h22M3 5h7" fill="none" stroke="#12161c" stroke-width="1.1" opacity="0.85" />
+          <path d="M48 5.5h3" fill="none" stroke="#f5cd79" stroke-width="1.2" />
+        </svg>
+        }
+        @case ('rocket') {
+        <svg class="wpn-svg wpn-rocket-svg" viewBox="0 0 56 22" fill="currentColor" stroke-linejoin="round"
+          stroke-linecap="round">
+          <polygon points="46,7 54,11 46,15 42,12 42,10" fill="#ff4757" />
+          <rect x="54" y="10.5" width="2" height="1" fill="#ecf0f1" />
+          <rect x="8" y="9.5" width="34" height="3" />
+          <polygon points="8,9.5 2,7.5 2,14.5 8,12.5" fill="currentColor" />
+          <rect x="20" y="8.5" width="14" height="5" rx="0.5" fill="#e67e22" />
+          <rect x="22" y="6" width="4" height="2.5" fill="#00d2d3" />
+          <path d="M26 12.5 h3 l-1 6 h-2.5 z" />
+          <path d="M15 12.5 h2.5 l-.8 5 h-2 z" opacity="0.8" />
+          <path d="M9 11h31M22 9.5h10M4 9v5" fill="none" stroke="#12161c" stroke-width="1.1" opacity="0.85" />
+          <path d="M47 8l5 3-5 3" fill="none" stroke="#f5cd79" stroke-width="1" />
+        </svg>
+        }
+        }
+      </div>
+
+      <div class="weapon-info">
+        <span class="weapon-name">{{ weaponName() }}</span>
+        <div class="ammo-row">
+          <span class="ammo-label">{{ currentWeapon() === 'fist' ? 'MELEE:' : 'ROUNDS:' }}</span>
+          <span class="ammo-val" [class.empty]="ammo() === 0">{{ currentWeapon() === 'fist' ? '∞' :
+            ammo().toString().padStart(3, '0') }}</span>
+          <div class="mag-gauge" [class.hidden]="currentWeapon() === 'fist'">
+            <div class="mag-fill" [style.width.%]="ammo() > 100 ? 100 : ammo()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tactile Mechanical Weapon Hotkey Rack -->
+    <div class="weapon-hotkeys">
+      <button class="weapon-slot" [class.active]="currentWeapon() === 'fist'" (click)="onSelect('fist')">
+        <span class="slot-num">5</span>
+        <span class="slot-code">FIST</span>
+      </button>
+      <button class="weapon-slot" [class.active]="currentWeapon() === 'pistol'" (click)="onSelect('pistol')">
+        <span class="slot-num">1</span>
+        <span class="slot-code">9MM</span>
+      </button>
+      <button class="weapon-slot" [class.active]="currentWeapon() === 'uzi'" (click)="onSelect('uzi')">
+        <span class="slot-num">2</span>
+        <span class="slot-code">UZI</span>
+      </button>
+      <button class="weapon-slot" [class.active]="currentWeapon() === 'shotgun'" (click)="onSelect('shotgun')">
+        <span class="slot-num">3</span>
+        <span class="slot-code">SHT</span>
+      </button>
+      <button class="weapon-slot" [class.active]="currentWeapon() === 'rocket'" (click)="onSelect('rocket')">
+        <span class="slot-num">4</span>
+        <span class="slot-code">RPG</span>
+      </button>
+    </div>
+  </div>
+</div>

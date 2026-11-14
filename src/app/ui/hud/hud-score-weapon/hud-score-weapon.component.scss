@@ -1,0 +1,317 @@
+:host {
+  display: contents;
+}
+
+/* Corner Rivet Helper */
+.hud-rivet {
+  position: absolute;
+  color: #485460;
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.7;
+
+  &.rivet-tl { top: 3px; left: 6px; }
+  &.rivet-tr { top: 3px; right: 6px; }
+  &.rivet-bl { bottom: 3px; left: 6px; }
+  &.rivet-br { bottom: 3px; right: 6px; }
+}
+
+.hud-top-right {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: auto;
+
+  .score-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .multiplier-badge {
+      background: #141b22;
+      border: 1px solid #57606f;
+      padding: 4px 8px;
+      font-family: 'Impact', sans-serif;
+      font-size: 14px;
+      color: #a4b0be;
+      letter-spacing: 1px;
+
+      &.boosted {
+        background: #3a2a0a;
+        border-color: #ffa502;
+        color: #ffa502;
+        box-shadow: 0 0 10px rgba(255, 165, 2, 0.5);
+        animation: multPulse 0.8s infinite alternate;
+      }
+    }
+
+    .score-display {
+      display: flex;
+      align-items: baseline;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 36px;
+      font-weight: 900;
+      color: #ffa502;
+      letter-spacing: 2px;
+      background: rgba(22, 24, 21, 0.9);
+      border: 1px solid #655b4a;
+      border-right: 3px solid #d29a35;
+      padding: 2px 14px;
+      text-shadow: 2px 2px 0 #000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.42);
+
+      .currency-symbol {
+        margin-right: 4px;
+        font-size: 28px;
+        color: #63ad54;
+      }
+    }
+  }
+
+  .wanted-stars {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(22, 24, 21, 0.9);
+    border: 1px solid #3d4a57;
+    padding: 3px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.42);
+
+    .wanted-label {
+      font-family: 'Impact', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: #ff4757;
+    }
+
+    .stars-cluster {
+      display: flex;
+      gap: 4px;
+
+      .star-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        .star-svg {
+          width: 18px;
+          height: 18px;
+          fill: #242c36;
+          stroke: #181f26;
+          stroke-width: 1;
+          transition: fill 0.2s;
+        }
+
+        &.active .star-svg {
+          fill: #ffa502;
+          stroke: #fffa65;
+        }
+      }
+    }
+  }
+
+  /* Weapon Terminal (GTA 2 Industrial Style) */
+  .weapon-hud-card {
+    position: relative;
+    background: rgba(22, 24, 21, 0.9);
+    border: 1px solid #9a7134;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.42);
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 230px;
+    box-sizing: border-box;
+
+    .weapon-header-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #514832;
+
+      .strip-cat {
+        font-family: 'Impact', sans-serif;
+        font-size: 10px;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: #d7bd68;
+      }
+    }
+
+    .weapon-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .weapon-icon-box {
+        position: relative;
+        width: 82px;
+        height: 54px;
+        background: #171a16;
+        border: 1px solid #655b4a;
+        color: #d29a35;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 2px;
+
+        .crosshair {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          border-color: #57606f;
+          border-style: solid;
+
+          &.ch-tl { top: 2px; left: 2px; border-width: 1px 0 0 1px; }
+          &.ch-tr { top: 2px; right: 2px; border-width: 1px 1px 0 0; }
+          &.ch-bl { bottom: 2px; left: 2px; border-width: 0 0 1px 1px; }
+          &.ch-br { bottom: 2px; right: 2px; border-width: 0 1px 1px 0; }
+        }
+
+        .wpn-svg {
+          width: 64px;
+          height: 36px;
+          overflow: visible;
+          shape-rendering: auto;
+          transition: transform 0.15s ease-out;
+
+          &.wpn-shotgun-svg,
+          &.wpn-rocket-svg {
+            width: 72px;
+            height: 32px;
+          }
+        }
+      }
+
+      .weapon-info {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        flex: 1;
+
+        .weapon-name {
+          font-family: 'Impact', 'Arial Black', sans-serif;
+          font-size: 13px;
+          color: #ffffff;
+          letter-spacing: 0.8px;
+          text-transform: uppercase;
+        }
+
+        .ammo-row {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+
+          .ammo-label {
+            font-family: 'Consolas', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            color: #747d8c;
+            letter-spacing: 1px;
+          }
+
+          .ammo-val {
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 20px;
+            font-weight: 900;
+            color: #7fbd57;
+            letter-spacing: 1.5px;
+
+            &.empty {
+              color: #d45243;
+            }
+          }
+
+          .mag-gauge {
+            width: 40px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-left: 4px;
+
+            &.hidden {
+              display: none;
+            }
+
+            .mag-fill {
+              height: 100%;
+              background: #6ca64b;
+              transition: width 0.15s ease-out;
+            }
+          }
+        }
+      }
+    }
+
+    .weapon-hotkeys {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      padding-top: 2px;
+
+      .weapon-slot {
+        background: #242820;
+        border: 1px solid #4d5545;
+        border-bottom: 2px solid #11130f;
+        box-shadow: 0 2px 0 #11130f;
+        padding: 4px 2px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1px;
+        border-radius: 2px;
+        transition: all 0.12s ease;
+
+        .slot-num {
+          font-size: 9px;
+          font-family: 'Impact', sans-serif;
+          color: #8b9583;
+        }
+
+        .slot-code {
+          font-family: 'Consolas', monospace;
+          font-size: 10px;
+          font-weight: 900;
+          color: #ced6e0;
+          letter-spacing: 0.5px;
+        }
+
+        &:hover {
+          background: #31372b;
+          border-color: #768169;
+          transform: translateY(-1px);
+        }
+
+        &.active {
+          background: #44351e;
+          border-color: #d29a35;
+          border-bottom-color: #895d18;
+          box-shadow: 0 2px 0 #11130f;
+
+          .slot-num,
+          .slot-code {
+            color: #f0c968;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes multPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}

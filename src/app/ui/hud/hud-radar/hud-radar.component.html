@@ -1,0 +1,52 @@
+<div class="hud-bottom-left">
+  <div class="radar-container">
+    <div class="radar-bezel">
+      <!-- Distance Rings -->
+      <div class="radar-ring ring-1"></div>
+      <div class="radar-ring ring-2"></div>
+      <div class="radar-ring ring-3"></div>
+      <div class="radar-axis axis-h"></div>
+      <div class="radar-axis axis-v"></div>
+
+      <!-- Radar Sweep Line -->
+      <div class="radar-sweep"></div>
+
+      <!-- Compass Points -->
+      <span class="cardinal card-n">N</span>
+      <span class="cardinal card-e">E</span>
+      <span class="cardinal card-s">S</span>
+      <span class="cardinal card-w">W</span>
+
+      <!-- Dynamic Blips -->
+      @for (blip of radarBlips(); track $index) {
+      <div
+        class="radar-blip"
+        [class]="'blip-' + blip.type"
+        [style.left.%]="50 + blip.x * 42"
+        [style.top.%]="50 + blip.y * 42"
+        [style.background-color]="blip.color"
+      >
+        @if (blip.label) {
+        <span class="blip-tag">{{ blip.label }}</span>
+        }
+      </div>
+      }
+
+      <!-- Player Center Blip with Orientation Arrow -->
+      <div class="radar-player" [style.transform]="playerRotation()">
+        <svg class="player-arrow" viewBox="0 0 16 16">
+          <polygon points="8,1 15,15 8,11 1,15" fill="#00d2d3" stroke="#ffffff" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="radar-telemetry">
+      <div class="telemetry-row">
+        <span class="tel-label">CITY MAP // 600M</span>
+        <span class="tel-led"></span>
+      </div>
+      <div class="telemetry-mode">NAVIGATION LINK // ACTIVE</div>
+      <div class="telemetry-district">{{ district() }}</div>
+    </div>
+  </div>
+</div>

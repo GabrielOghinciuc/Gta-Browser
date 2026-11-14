@@ -1,0 +1,244 @@
+:host {
+  display: contents;
+}
+
+.hud-bottom-left {
+  position: absolute;
+  bottom: 24px;
+  left: 30px;
+  width: fit-content;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 5;
+  pointer-events: auto;
+
+  /* GTA-style street radar */
+  .radar-container {
+    width: fit-content;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    width: 300px;
+    box-sizing: border-box;
+    background: transparent;
+    padding: 0;
+
+    .radar-bezel {
+      position: relative;
+      width: 126px;
+      height: 126px;
+      background:
+        radial-gradient(circle, rgba(103, 116, 67, 0.32) 0%, rgba(35, 44, 30, 0.88) 68%, rgba(15, 20, 17, 0.96) 100%);
+      border: 2px solid #b37a27;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: inset 0 0 16px rgba(255, 190, 62, 0.16), 0 0 5px rgba(201, 145, 44, 0.2);
+
+      .radar-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgba(196, 171, 91, 0.28);
+        border-radius: 50%;
+        pointer-events: none;
+
+        &.ring-1 { width: 32%; height: 32%; }
+        &.ring-2 { width: 62%; height: 62%; }
+        &.ring-3 { width: 92%; height: 92%; border-color: rgba(196, 171, 91, 0.38); }
+      }
+
+      .radar-axis {
+        position: absolute;
+        background: rgba(196, 171, 91, 0.22);
+        pointer-events: none;
+
+        &.axis-h { top: 50%; left: 0; width: 100%; height: 1px; transform: translateY(-50%); }
+        &.axis-v { top: 0; left: 50%; width: 1px; height: 100%; transform: translateX(-50%); }
+      }
+
+      .radar-sweep {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: conic-gradient(from 0deg, rgba(255, 190, 62, 0.12) 0deg, transparent 32deg, transparent 360deg);
+        animation: radarSweep 5s linear infinite;
+        pointer-events: none;
+      }
+
+      .cardinal {
+        position: absolute;
+        font-family: 'Impact', sans-serif;
+        font-size: 9px;
+        letter-spacing: 0.5px;
+        color: #d6bd67;
+        line-height: 1;
+        pointer-events: none;
+
+        &.card-n { top: 2px; left: 50%; transform: translateX(-50%); color: #ffa502; }
+        &.card-s { bottom: 2px; left: 50%; transform: translateX(-50%); }
+        &.card-e { right: 3px; top: 50%; transform: translateY(-50%); }
+        &.card-w { left: 3px; top: 50%; transform: translateY(-50%); }
+      }
+
+      .radar-blip {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 4px currentColor;
+        z-index: 5;
+
+        .blip-tag {
+          position: absolute;
+          top: -13px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-family: monospace;
+          font-size: 7px;
+          font-weight: 900;
+          color: inherit;
+          background: transparent;
+          border: 0;
+          padding: 1px 2px;
+          line-height: 1;
+          white-space: nowrap;
+          text-shadow: 1px 1px 0 #10130f;
+        }
+
+        &.blip-shop {
+          width: 8px;
+          height: 8px;
+          animation: blipGlow 1.2s infinite alternate;
+        }
+
+        &.blip-cop {
+          animation: copAlert 0.4s infinite alternate;
+        }
+      }
+
+      .radar-player {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 18px;
+        height: 18px;
+        z-index: 10;
+        pointer-events: none;
+
+        .player-arrow {
+          width: 100%;
+          height: 100%;
+          filter: drop-shadow(0 0 3px #f4d36d);
+        }
+      }
+    }
+
+    .radar-telemetry {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 7px;
+      width: 150px;
+      min-width: 0;
+      padding-left: 13px;
+      border-left: 0;
+
+      .telemetry-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .tel-label {
+          font-family: 'Impact', sans-serif;
+          font-size: 9px;
+          letter-spacing: 1px;
+          color: #f0c04d;
+          white-space: nowrap;
+        }
+
+        .tel-led {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: #2ed573;
+          box-shadow: 0 0 6px #2ed573;
+          animation: ledBlink 1s infinite alternate;
+        }
+      }
+
+      .telemetry-mode {
+        font-family: 'Consolas', monospace;
+        font-size: 8px;
+        letter-spacing: 0.8px;
+        color: #9ab35d;
+        white-space: nowrap;
+      }
+
+      .telemetry-district {
+        font-family: 'Consolas', monospace;
+        font-size: 10px;
+        color: #d0c49a;
+        line-height: 1.2;
+        text-transform: uppercase;
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+}
+
+@keyframes radarSweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes blipGlow {
+  0% { transform: translate(-50%, -50%) scale(0.9); }
+  100% { transform: translate(-50%, -50%) scale(1.3); }
+}
+
+@keyframes copAlert {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+@keyframes ledBlink {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+@media (max-width: 700px) {
+  .hud-bottom-left {
+    left: 16px;
+    bottom: 16px;
+    max-width: calc(100vw - 32px);
+
+    .radar-container {
+      width: min(340px, calc(100vw - 32px));
+      padding: 10px;
+      gap: 10px;
+
+      .radar-bezel {
+        width: 104px;
+        height: 104px;
+      }
+
+      .radar-telemetry {
+        width: auto;
+        flex: 1;
+        padding-left: 10px;
+
+        .tel-label {
+          font-size: 8px;
+        }
+      }
+    }
+  }
+}

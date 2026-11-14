@@ -1,0 +1,345 @@
+.window-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 10, 14, 0.84);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 3vw, 32px);
+  box-sizing: border-box;
+  animation: backdropFadeIn 0.15s ease-out;
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Base Window Chassis */
+.retro-window {
+  --theme-accent: #ffa502;
+  --theme-glow: rgba(255, 165, 2, 0.4);
+  --theme-dim: rgba(255, 165, 2, 0.12);
+
+  position: relative;
+  max-width: 96vw;
+  max-height: calc(100vh - 24px);
+  min-height: 0;
+  background: linear-gradient(180deg, #181c24 0%, #0e1015 100%);
+  border: 1px solid var(--theme-accent);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.9),
+    0 0 30px var(--theme-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  clip-path: polygon(
+    14px 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%,
+    0 14px
+  );
+  animation: retroWindowPop 0.18s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+
+  &.pos-top {
+    margin-top: 16px;
+    align-self: flex-start;
+  }
+
+  /* Color Theme Modifiers */
+  &.theme-amber {
+    --theme-accent: #ffa502;
+    --theme-glow: rgba(255, 165, 2, 0.45);
+    --theme-dim: rgba(255, 165, 2, 0.12);
+  }
+
+  &.theme-cyan {
+    --theme-accent: #00cec9;
+    --theme-glow: rgba(0, 206, 201, 0.45);
+    --theme-dim: rgba(0, 206, 201, 0.12);
+  }
+
+  &.theme-green {
+    --theme-accent: #2ed573;
+    --theme-glow: rgba(46, 213, 115, 0.45);
+    --theme-dim: rgba(46, 213, 115, 0.12);
+  }
+
+  &.theme-crimson {
+    --theme-accent: #ff4757;
+    --theme-glow: rgba(255, 71, 87, 0.45);
+    --theme-dim: rgba(255, 71, 87, 0.12);
+  }
+
+  &.theme-purple {
+    --theme-accent: #a55eea;
+    --theme-glow: rgba(165, 94, 234, 0.45);
+    --theme-dim: rgba(165, 94, 234, 0.12);
+  }
+
+  &.theme-blue {
+    --theme-accent: #1e90ff;
+    --theme-glow: rgba(30, 144, 255, 0.45);
+    --theme-dim: rgba(30, 144, 255, 0.12);
+  }
+}
+
+@keyframes retroWindowPop {
+  0% {
+    transform: scale(0.92) translateY(-14px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Industrial Corner Screws / Rivets */
+.rivet {
+  position: absolute;
+  color: #57606f;
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 10;
+  user-select: none;
+}
+.rivet-tl {
+  top: 4px;
+  left: 18px;
+}
+.rivet-tr {
+  top: 4px;
+  right: 6px;
+}
+.rivet-bl {
+  bottom: 4px;
+  left: 6px;
+}
+.rivet-br {
+  bottom: 4px;
+  right: 18px;
+}
+
+/* CRT Scanline Overlay */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.15;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.65) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 5;
+}
+
+/* Header */
+.window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 22px 12px;
+  background: rgba(14, 17, 22, 0.95);
+  position: relative;
+  z-index: 6;
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .hazard-indicator {
+      width: 4px;
+      height: 32px;
+      background: var(--theme-accent);
+      box-shadow: 0 0 8px var(--theme-glow);
+    }
+
+    .title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .main-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .title-text {
+          font-family: 'Impact', 'Arial Black', sans-serif;
+          font-size: 22px;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: var(--theme-accent);
+          text-shadow: 0 0 10px var(--theme-glow);
+          line-height: 1.1;
+        }
+
+        .title-badge {
+          background: var(--theme-dim);
+          border: 1px solid var(--theme-accent);
+          color: #ffffff;
+          font-family: monospace;
+          font-size: 11px;
+          font-weight: bold;
+          padding: 2px 7px;
+          border-radius: 2px;
+          letter-spacing: 1px;
+        }
+      }
+
+      .sub-title {
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        color: #747d8c;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .retro-close-btn {
+      background: #1c2028;
+      border: 1px solid var(--theme-accent);
+      color: var(--theme-accent);
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      font-weight: 900;
+      padding: 5px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.12s ease;
+
+      .btn-char {
+        font-weight: 900;
+      }
+
+      &:hover {
+        background: var(--theme-accent);
+        color: #0c0e12;
+        box-shadow: 0 0 14px var(--theme-glow);
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+  }
+}
+
+/* Hazard Ribbon Divider */
+.header-ribbon {
+  height: 4px;
+  background: #11141a;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  z-index: 6;
+
+  .ribbon-stripes {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--theme-accent),
+      var(--theme-accent) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+    opacity: 0.6;
+  }
+}
+
+/* Scrollable Body */
+.window-body {
+  position: relative;
+  z-index: 6;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 22px;
+  box-sizing: border-box;
+
+  /* Custom Retro Scrollbar */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(4, 7, 10, 0.85);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--theme-accent);
+    border: 2px solid #0f1217;
+    border-radius: 0;
+  }
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-accent) #0f1217;
+}
+
+/* Footer */
+.window-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding: 11px 22px;
+  background: rgba(10, 12, 16, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 6;
+
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--theme-accent);
+      box-shadow: 0 0 6px var(--theme-glow);
+      animation: statusBlink 1.4s infinite alternate;
+    }
+
+    .status-txt {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: #747d8c;
+      text-transform: uppercase;
+    }
+  }
+}
+
+@keyframes statusBlink {
+  0% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 1;
+  }
+}
